@@ -113,7 +113,7 @@ public class Creature {
 		
 		amount = (int)(Math.random() * amount) + 1;
 		
-		doAction("attack the %s for %d damage", other.name, amount);
+		doAction("attack %s for %d damage", other.name, amount);
 		
 		other.modifyHp(-amount);
 	}
@@ -170,7 +170,7 @@ public class Creature {
 				if (other == this)
 					other.notify("You " + message + ".", params);
 				else if (other.canSee(x, y, z))
-					other.notify(String.format("The %s %s.", name, makeSecondPerson(message)), params);
+					other.notify(String.format("%s %s.", name, makeSecondPerson(message)), params);
 			}
 		}
 	}

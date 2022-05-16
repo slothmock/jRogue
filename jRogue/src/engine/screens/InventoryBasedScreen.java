@@ -24,18 +24,18 @@ public abstract class InventoryBasedScreen implements Screen {
 	public void displayOutput(AsciiPanel terminal) {
 		ArrayList<String> lines = getList();
 		
-		int y = 23 - lines.size();
-		int x = 4;
+		int y = 12 - lines.size();
+		int x = 79;
 
 		if (lines.size() > 0)
-			terminal.clear(' ', x, y, 20, lines.size());
+			terminal.clear(' ', x, y, 46, 20);
 		
 		for (String line : lines){
 			terminal.write(line, x, y++);
 		}
 		
-		terminal.clear(' ', 0, 23, 80, 1);
-		terminal.write("What would you like to " + getVerb() + "?", 2, 23);
+		terminal.clear(' ', x, 3, 46, 1);
+		terminal.write("What would you like to " + getVerb() + "?", x, 3);
 		
 		terminal.repaint();
 	}
@@ -50,7 +50,7 @@ public abstract class InventoryBasedScreen implements Screen {
 			if (item == null || !isAcceptable(item))
 				continue;
 			
-			String line = letters.charAt(i) + " - " + item.glyph() + " " + item.name();
+			String line = letters.charAt(i) + ": " + item.glyph() + " " + item.name();
 			
 			if(item == player.weapon() || item == player.armor())
 				line += " (equipped)";
