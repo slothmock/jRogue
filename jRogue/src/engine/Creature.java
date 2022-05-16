@@ -266,13 +266,19 @@ public class Creature {
 			return;
 		
 		if (item.attackValue() >= item.defenseValue()){
-			unequip(weapon);
-			doAction("wield out a " + item.name());
-			weapon = item;
+			if (weapon != null) {
+				unequip(weapon);
+			} else { 
+				doAction("wield a - " + item.name());
+				weapon = item;
+		}
+			
 		} else {
-			unequip(armor);
-			doAction("put on a " + item.name());
-			armor = item;
+			if (armor != null) {unequip(armor);
+			} else {
+				doAction("put on - " + item.name());
+				armor = item;
+			}
 		}
 	}
 }

@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void createWorld(){
-		world = new WorldBuilder(80, 85, 5)
+		world = new WorldBuilder(80, 85, 20)
 					.makeCaves()
 					.build();
 	}
