@@ -253,10 +253,10 @@ public class Creature {
 			return;
 		
 		if (item == armor){
-			doAction("remove a " + item.name());
+			doAction("removed - " + item.name());
 			armor = null;
 		} else if (item == weapon) {
-			doAction("put away a " + item.name());
+			doAction("put away - " + item.name());
 			weapon = null;
 		}
 	}
