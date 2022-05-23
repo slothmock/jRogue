@@ -9,7 +9,7 @@ public class LoseScreen implements Screen {
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
 		terminal.writeCenter("You either died, or left without your cactus..", 3);
-		terminal.writeCenter("-- press [enter] to restart --", 5);
+		terminal.writeCenter("-- press [Enter] to restart --", 5);
 	}
 
 	@Override

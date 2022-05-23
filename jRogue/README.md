@@ -1,18 +1,15 @@
 ## Getting Started
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Welcome to jRogue - Another Classic Roguelike.
 
-## Folder Structure
+## Controls
 
-The workspace contains two folders by default, where:
+- `G`: Get an item from the floor.
+- `D`: Drop an item from your inventory.
+- `E`: Eat an item from your inventory.
+- `W`: Wield or wear an item.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+## Story
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
-
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
-
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+Your name is Zak, after a crazy acid trip. you find yourself in a dark caves full of monsters and random items.  
+Find your favourite cactus to end this nightmare!
