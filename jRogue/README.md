@@ -1,15 +1,18 @@
 ## Getting Started
 
-Welcome to jRogue - Another Classic Roguelike.
+Welcome to jRogue - Another Classic Roguelike.  
+Note that input is registered on the keyReleased event, this stops users from holding the keys down to perform actions.
 
 ## Controls
 
-- `G`: Get an item from the floor.
-- `D`: Drop an item from your inventory.
-- `E`: Eat an item from your inventory.
-- `W`: Wield or wear an item.
+- `C` : Character Information
+- `D` : Drop an item from your inventory.
+- `E` : Eat an item from your inventory.
+- `G` : Get an item from the floor.
+- `W` : Wield or wear an item.
+- `Esc` : To quit.
 
 ## Story
 
-Your name is Zak, after a crazy acid trip. you find yourself in a dark caves full of monsters and random items.  
+Your play as Zak, after one crazy psychedelic experience, you find yourself in dark caves full of monsters and random items.  
 Find your favourite cactus to end this nightmare!
