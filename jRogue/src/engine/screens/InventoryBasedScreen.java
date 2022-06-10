@@ -24,18 +24,20 @@ public abstract class InventoryBasedScreen implements Screen {
 	public void displayOutput(AsciiPanel terminal) {
 		ArrayList<String> lines = getList();
 		
-		int y = 12 - lines.size();
-		int x = 79;
+		int y = 2;
+		int x = 80;
 
 		if (lines.size() > 0)
-			terminal.clear(' ', x, y, 46, 20);
+			terminal.clear(' ', x, 1, 45, 30);
 		
+
+		terminal.clear(' ', x, 1, 45, 30);
+		terminal.write("What would you like to " + getVerb() + "?", x, 1);
+
 		for (String line : lines){
 			terminal.write(line, x, y++);
 		}
 		
-		terminal.clear(' ', x, 3, 46, 1);
-		terminal.write("What would you like to " + getVerb() + "?", x, 3);
 		
 		terminal.repaint();
 	}
@@ -44,7 +46,7 @@ public abstract class InventoryBasedScreen implements Screen {
 		ArrayList<String> lines = new ArrayList<String>();
 		Item[] inventory = player.inventory().getItems();
 		
-		for (int i = 0; i < inventory.length; i++){
+		for (int i = 0; i < inventory.length - 1; i++){
 			Item item = inventory[i];
 			
 			if (item == null || !isAcceptable(item))

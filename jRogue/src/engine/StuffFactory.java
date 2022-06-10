@@ -41,6 +41,7 @@ public class StuffFactory {
 	
 	public Item newRock(int depth){
 		Item rock = new Item(',', AsciiPanel.yellow, "Rock");
+		rock.modifyFoodValue(-20);
 		world.addAtEmptyLocation(rock, depth);
 		return rock;
 	}
@@ -61,6 +62,13 @@ public class StuffFactory {
 	public Item newFruit(int depth){
 		Item item = new Item('%', AsciiPanel.brightRed, "Apple");
 		item.modifyFoodValue(100);
+		world.addAtEmptyLocation(item, depth);
+		return item;
+	}
+
+	public Item newOlive(int depth){
+		Item item = new Item('%', AsciiPanel.green, "Olives");
+		item.modifyFoodValue(20);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}

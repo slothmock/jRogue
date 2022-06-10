@@ -1,11 +1,9 @@
 package engine;
 
+import javax.swing.JFrame;
+import asciiPanel.AsciiPanel;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
-
-import asciiPanel.AsciiPanel;
 import engine.screens.Screen;
 import engine.screens.StartScreen;
 
@@ -14,7 +12,7 @@ public class ApplicationMain extends JFrame implements KeyListener {
 	
 	private AsciiPanel terminal;
 	private Screen screen;
-
+	
 	public ApplicationMain(){
 		super();
 		terminal = new AsciiPanel(125, 32);
@@ -33,13 +31,13 @@ public class ApplicationMain extends JFrame implements KeyListener {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		screen = screen.respondToUserInput(e);
 		repaint();
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) { }
 
 	@Override
 	public void keyTyped(KeyEvent e) { }

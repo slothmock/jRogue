@@ -86,22 +86,24 @@ public class PlayScreen implements Screen {
 		displayTiles(terminal, left, top);
 		displayMessages(terminal, messages);
 		
-		String stats = String.format("%3d/%3d hp %8s", player.hp(), player.maxHp(), hunger());
-		terminal.write(stats, 79, 2);
+		String stats = String.format("%3d/%3d HP - %8s", player.hp(), player.maxHp(), hunger());
+		terminal.write(stats, 80, 1);
 		
 		if (subscreen != null)
 			subscreen.displayOutput(terminal);
 	}
 	
 	private String hunger(){
-		if (player.food() < 100)
-			return " Starving";
-		else if (player.food() < 300)
-			return " Hungry";
+		if (player.food() < player.maxFood() * 0.2)
+			return "Starving";
+		else if (player.food() < player.maxFood() * 0.5)
+			return "Hungry";
+		else if (player.food() > player.maxFood() * 0.5)
+			return "Not Hungry";
+		else if (player.food() > player.maxFood() * 0.8)
+			return "Full";
 		else if (player.food() > player.maxFood() * 0.95)
-			return " Stuffed";
-		else if (player.food() > player.maxFood() * 0.85)
-			return " Full";
+			return "Stuffed";
 		else
 			return "";
 	}
@@ -109,7 +111,7 @@ public class PlayScreen implements Screen {
 	private void displayMessages(AsciiPanel terminal, List<String> messages) {
 		int top = screenHeight - messages.size();
 		for (int i = 0; i < messages.size(); i++){
-			terminal.write(messages.get(i), 79, top + i);
+			terminal.write(messages.get(i), 80, top + i);
 		}
 		if (messages.size() > 10) messages.clear();
 	}
@@ -132,18 +134,15 @@ public class PlayScreen implements Screen {
 	
 	@Override
 	public Screen respondToUserInput(KeyEvent key) {
+		int level = player.level();
 		if (subscreen != null) {
 			subscreen = subscreen.respondToUserInput(key);
-		} else {
-			switch (key.getKeyCode()){
-			case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_H: player.moveBy(-1, 0, 0); break;
-			case KeyEvent.VK_RIGHT:
-			case KeyEvent.VK_L: player.moveBy( 1, 0, 0); break;
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_K: player.moveBy( 0,-1, 0); break;
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_J: player.moveBy( 0, 1, 0); break;
+		} else switch (key.getKeyCode()) {
+			case KeyEvent.VK_ESCAPE: System.exit(0);
+			case KeyEvent.VK_LEFT: player.moveBy(-1, 0, 0); break;
+			case KeyEvent.VK_RIGHT: player.moveBy( 1, 0, 0); break;
+			case KeyEvent.VK_UP: player.moveBy( 0,-1, 0); break;
+			case KeyEvent.VK_DOWN: player.moveBy( 0, 1, 0); break;
 			case KeyEvent.VK_Y: player.moveBy(-1,-1, 0); break;
 			case KeyEvent.VK_U: player.moveBy( 1,-1, 0); break;
 			case KeyEvent.VK_B: player.moveBy(-1, 1, 0); break;
@@ -151,6 +150,8 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_D: subscreen = new DropScreen(player); break;
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
+			case KeyEvent.VK_H: subscreen = new GameHelpScreen(player); break;
+			case KeyEvent.VK_C: subscreen = new CharacterScreen(player); break;
 			}
 			
 			switch (key.getKeyChar()){
@@ -163,7 +164,9 @@ public class PlayScreen implements Screen {
 					player.moveBy( 0, 0, -1); break;
 			case '>': player.moveBy( 0, 0, 1); break;
 			}
-		}
+
+		if (player.level() > level)
+			subscreen = new LevelUpScreen(player, player.level() - level);
 		
 		if (subscreen == null)
 			world.update();

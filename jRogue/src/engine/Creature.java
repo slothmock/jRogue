@@ -53,11 +53,32 @@ public class Creature {
 	private int food;
 	public int food() { return food; }
 	
+	private int foodValue;
+	public int foodValue() { return foodValue; }
+
 	private Item weapon;
 	public Item weapon() { return weapon; }
 	
 	private Item armor;
 	public Item armor() { return armor; }
+	
+	private int xp;
+	public int xp() { return xp; }
+	public void modifyXp(int amount) { 
+		xp += amount;
+		
+		notify("You %s %d xp.", amount < 0 ? "lose" : "gain", amount);
+		
+		while (xp > (int)(Math.pow(level, 1.5) * 20)) {
+			level++;
+			doAction("advance to level %d", level);
+			ai.onGainLevel();
+			modifyHp(level * 2);
+		}
+	}
+	
+	private int level;
+	public int level() { return level; }
 	
 	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense){
 		this.world = world;
@@ -67,11 +88,12 @@ public class Creature {
 		this.hp = maxHp;
 		this.attackValue = attack;
 		this.defenseValue = defense;
-		this.visionRadius = 6;
+		this.visionRadius = 3;
 		this.name = name;
-		this.inventory = new Inventory(20);
+		this.inventory = new Inventory(12);
 		this.maxFood = 1000;
-		this.food = maxFood / 3 * 2;
+		this.food = maxFood;
+		this.level = 1;
 	}
 	
 	public void moveBy(int mx, int my, int mz){
@@ -107,7 +129,7 @@ public class Creature {
 	}
 
 	public void attack(Creature other){
-		modifyFood(-2);
+		modifyFood(-3);
 		
 		int amount = Math.max(0, attackValue() - other.defenseValue());
 		
@@ -116,6 +138,19 @@ public class Creature {
 		doAction("attack %s for %d damage", other.name, amount);
 		
 		other.modifyHp(-amount);
+		
+		if (other.hp < 1)
+			gainXp(other);
+	}
+	
+	public void gainXp(Creature other){
+		int amount = other.maxHp 
+			+ other.attackValue() 
+			+ other.defenseValue()
+			- level;
+		
+		if (amount > 0)
+			modifyXp(amount);
 	}
 
 	public void modifyHp(int amount) { 
@@ -203,8 +238,10 @@ public class Creature {
 	public void pickup(){
 		Item item = world.item(x, y, z);
 		
-		if (inventory.isFull() || item == null){
+		if (item == null){
 			doAction("grab at the ground");
+		} else if (inventory.isFull()) {
+			notify("Can't pick up %s because inventory is full", item.name());
 		} else {
 			doAction("picked up - %s", item.name());
 			world.remove(x, y, z);
@@ -214,7 +251,7 @@ public class Creature {
 	
 	public void drop(Item item){
 		if (world.addAtEmptySpace(item, x, y, z)){
-			doAction("drop a " + item.name());
+			doAction("dropped - " + item.name());
 			inventory.remove(item);
 			unequip(item);
 		} else {
@@ -228,7 +265,7 @@ public class Creature {
 		if (food > maxFood) {
 			maxFood = (maxFood + food) / 2;
 			food = maxFood;
-			notify("You can't belive your stomach can hold that much!");
+			notify("You can't believe your stomach can hold that much!");
 			modifyHp(-1);
 		} else if (food < 1 && isPlayer()) {
 			modifyHp(-1000);
@@ -239,13 +276,29 @@ public class Creature {
 		return glyph == '@';
 	}
 	
-	public void eat(Item item){
-		if (item.foodValue() < 0)
-			notify("Gross!");
-		
-		modifyFood(item.foodValue());
-		inventory.remove(item);
-		unequip(item);
+	public void eatFood(Item item){
+		if (item.name() == "Rock") {
+			notify("You break your tooth eating the rock.");
+			modifyHp(-2);
+			inventory.remove(item);
+		} else if (item.foodValue() < 25) {
+			modifyFood(item.foodValue());
+			notify("You eat the %s", item.name());
+			notify("It's not very good.");
+			inventory.remove(item);
+			unequip(item);
+		} else if (item.name().contains("remains") && (!item.name().contains("fungus"))) {
+			modifyFood(item.foodValue());
+			notify("You eat the %s", item.name());
+			notify("It's disgusting!");
+			inventory.remove(item);
+			unequip(item);
+		} else {
+			modifyFood(item.foodValue());
+			notify("You eat the %s.", item.name());
+			inventory.remove(item);
+			unequip(item);
+		}
 	}
 	
 	public void unequip(Item item){
@@ -253,10 +306,10 @@ public class Creature {
 			return;
 		
 		if (item == armor){
-			doAction("removed - " + item.name());
+			doAction("Removed - " + item.name());
 			armor = null;
 		} else if (item == weapon) {
-			doAction("put away - " + item.name());
+			doAction("Put away - " + item.name());
 			weapon = null;
 		}
 	}
@@ -265,20 +318,41 @@ public class Creature {
 		if (item.attackValue() == 0 && item.defenseValue() == 0)
 			return;
 		
-		if (item.attackValue() >= item.defenseValue()){
-			if (weapon != null) {
-				unequip(weapon);
-			} else { 
-				doAction("wield a - " + item.name());
-				weapon = item;
-		}
-			
-		} else {
-			if (armor != null) {unequip(armor);
+			if (item.attackValue() >= item.defenseValue()){
+				if (weapon != null) {
+					unequip(weapon);
+				} else { 
+					doAction("Wield a - " + item.name());
+					weapon = item;
+			}
+				
 			} else {
-				doAction("put on - " + item.name());
-				armor = item;
+				if (armor != null) {unequip(armor);
+				} else {
+					doAction("Put on - " + item.name());
+					armor = item;
+				}
 			}
 		}
+	
+	public void gainMaxHp() {
+		maxHp += 10;
+		hp = maxHp;
+		doAction("look healthier");
+	}
+	
+	public void gainAttackValue() {
+		attackValue += 2;
+		doAction("are stronger");
+	}
+	
+	public void gainDefenseValue() {
+		defenseValue += 2;
+		doAction("are tougher");
+	}
+	
+	public void gainVision() {
+		visionRadius += 1;
+		doAction("are more aware");
 	}
 }
