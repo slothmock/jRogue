@@ -10,8 +10,8 @@ public class StartScreen implements Screen {
 	public void displayOutput(AsciiPanel terminal) {
 		terminal.writeCenter("jRogue - Another Classic Roguelike", 4);
 		terminal.writeCenter("-- press [Enter] to start --", 14);
-		terminal.writeCenter("-- press [H] to see help screen --", 15);
-		terminal.writeCenter("-- press [Esc] to quit --", 16);
+		terminal.writeCenter("-- press [H] to see help screen --", 16);
+		terminal.writeCenter("-- press [Esc] to quit --", 18);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ public class PlayScreen implements Screen {
 	private int screenWidth;
 	private int screenHeight;
 	private List<String> messages;
+	//TODO: Add message history
 	private FieldOfView fov;
 	private Screen subscreen;
 	
@@ -81,39 +82,50 @@ public class PlayScreen implements Screen {
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
 		int left = getScrollX();
-		int top = getScrollY(); 
+		int top = getScrollY();
+		int separatorY = 0; 
+		int separatorX = 0;
 		
 		displayTiles(terminal, left, top);
 		displayMessages(terminal, messages);
 		
-		String stats = String.format("%s/%s HP - %s %s - %s XP", player.hp(), player.maxHp(), player.food(), hunger(), player.xp());
+		String stats = String.format("%s/%s HP - %s - %s XP", player.hp(), player.maxHp(), hunger(), player.xp());
 		terminal.write(stats, 88, 1);
+		terminal.write("Message Log", 1, screenHeight + 1);
+		for (int i = 0; i < screenHeight + 13; i++) {
+			terminal.write("|", 86, separatorY++);
+		}
+		for (int i = 0; i < screenWidth + 6; i++) {
+			terminal.write("_", separatorX++, screenHeight);
+		}
 		
 		if (subscreen != null)
 			subscreen.displayOutput(terminal);
 	}
 	
 	private String hunger(){
-		if (player.food() < player.maxFood() * 0.2)
-			return "(Starving)";
-		else if (player.food() < player.maxFood() * 0.5)
-			return "(Hungry)";
+		if (player.food() <= player.maxFood() * 0.2)
+			return "Starving";
+
+		else if (player.food() >= player.maxFood() * 0.95)
+			return "Full";
+
 		else if (player.food() > player.maxFood() * 0.5)
-			return "(Not Hungry)";
-		else if (player.food() > player.maxFood() * 0.8)
-			return "(Full)";
-		else if (player.food() > player.maxFood() * 0.95)
-			return "(Stuffed)";
+			return "Peckish";
+
+		else if (player.food() < player.maxFood() * 0.5)
+			return "Hungry";
+
 		else
 			return "";
 	}
 
 	private void displayMessages(AsciiPanel terminal, List<String> messages) {
-		int top = screenHeight - messages.size();
+		int top = screenHeight - messages.size() + 11;
 		for (int i = 0; i < messages.size(); i++){
-			terminal.write(messages.get(i), 88, top + i);
+			terminal.write(messages.get(i), 1, top + i);
 		}
-		if (messages.size() > 8) messages.clear();
+		if (messages.size() >= 8) messages.clear();
 	}
 
 	private void displayTiles(AsciiPanel terminal, int left, int top) {

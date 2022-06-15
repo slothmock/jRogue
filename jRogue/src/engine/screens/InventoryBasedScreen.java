@@ -28,10 +28,10 @@ public abstract class InventoryBasedScreen implements Screen {
 		int x = 88;
 
 		if (lines.size() > 0)
-			terminal.clear(' ', x, y, 45, 30);
+			terminal.clear(' ', x, y, 45, 20);
 		
 
-		terminal.clear(' ', x, y, 45, 30);
+		terminal.clear(' ', x, y, 45, 20);
 		terminal.write("What would you like to " + getVerb() + "?", x, y);
 
 		for (String line : lines){

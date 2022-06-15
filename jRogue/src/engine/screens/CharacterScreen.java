@@ -17,7 +17,7 @@ public class CharacterScreen implements Screen {
     public void displayOutput(AsciiPanel terminal) {
 		int x = 88;
         int y = 3;
-		terminal.clear(' ', x, y, 45, 30);
+		terminal.clear(' ', x, y, 45, 20);
 
 		terminal.write("-- Character Information --", x, y++);
         terminal.write("Level: " + player.level(), x, y++);
