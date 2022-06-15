@@ -17,6 +17,9 @@ public class LevelUpController {
 		},
 		new LevelUpOption("Increase Vision"){
 			public void invoke(Creature creature) { creature.gainVision(); }
+		},
+		new LevelUpOption("Increase Max Hunger"){
+			public void invoke(Creature creature) { creature.gainHunger(); }
 		}
 	};
 	

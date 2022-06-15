@@ -1,6 +1,8 @@
 package engine;
 
 import java.awt.Color;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Creature {
 	private World world;
@@ -61,24 +63,19 @@ public class Creature {
 	
 	private Item armor;
 	public Item armor() { return armor; }
+
+	private int level;
+	public int level() { return level; }
 	
 	private int xp;
 	public int xp() { return xp; }
-	public void modifyXp(int amount) { 
-		xp += amount;
-		
-		notify("You %s %d xp.", amount < 0 ? "lose" : "gain", amount);
-		
-		while (xp > (int)(Math.pow(level, 1.5) * 20)) {
-			level++;
-			doAction("advance to level %d", level);
-			ai.onGainLevel();
-			modifyHp(level * 2);
-		}
+
+	private int randomXPGain;
+	public int randomXPGain() { 
+		randomXPGain = ThreadLocalRandom.current().nextInt(1, 4);
+		return randomXPGain;
 	}
-	
-	private int level;
-	public int level() { return level; }
+
 	
 	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense){
 		this.world = world;
@@ -97,6 +94,7 @@ public class Creature {
 	}
 	
 	public void moveBy(int mx, int my, int mz){
+
 		if (mx==0 && my==0 && mz==0)
 			return;
 		
@@ -104,14 +102,14 @@ public class Creature {
 		
 		if (mz == -1){
 			if (tile == Tile.STAIRS_DOWN) {
-				doAction("walk up the stairs to level %d", z+mz+1);
+				doAction("go up the stairs - level %d", z+mz+1);
 			} else {
 				doAction("try to go up but are stopped by the cave ceiling");
 				return;
 			}
 		} else if (mz == 1){
 			if (tile == Tile.STAIRS_UP) {
-				doAction("walk down the stairs to level %d", z+mz+1);
+				doAction("go down the stairs - level %d", z+mz+1);
 			} else {
 				doAction("try to go down but are stopped by the cave floor");
 				return;
@@ -120,12 +118,11 @@ public class Creature {
 		
 		Creature other = world.creature(x+mx, y+my, z+mz);
 		
-		modifyFood(-1);
-		
 		if (other == null)
 			ai.onEnter(x+mx, y+my, z+mz, tile);
 		else
 			attack(other);
+
 	}
 
 	public void attack(Creature other){
@@ -141,6 +138,23 @@ public class Creature {
 		
 		if (other.hp < 1)
 			gainXp(other);
+	}
+
+	public void modifyXp(int amount) { 
+		xp += amount;
+		
+		notify("You %s %d xp.", amount < 0 ? "lose" : "gain", amount);
+
+		levelCheck();
+	}
+
+	private void levelCheck() {
+		while (xp > (int)(Math.pow(level, 1.5) * 20)) {
+			level++;
+			doAction("advance to level %d", level);
+			ai.onGainLevel();
+			modifyHp(level * 2);
+		}
 	}
 	
 	public void gainXp(Creature other){
@@ -175,12 +189,15 @@ public class Creature {
 		modifyFood(-10);
 		world.dig(wx, wy, wz);
 		doAction("dig");
+		modifyXp(randomXPGain());
 	}
 	
 	public void update(){
 		modifyFood(-1);
 		ai.onUpdate();
+
 	}
+
 
 	public boolean canEnter(int wx, int wy, int wz) {
 		return world.tile(wx, wy, wz).isGround() && world.creature(wx, wy, wz) == null;
@@ -354,5 +371,11 @@ public class Creature {
 	public void gainVision() {
 		visionRadius += 1;
 		doAction("are more aware");
+	}
+
+	public void gainHunger() {
+		maxFood += 100;
+		food = maxFood;
+		doAction("get hungry less often");
 	}
 }

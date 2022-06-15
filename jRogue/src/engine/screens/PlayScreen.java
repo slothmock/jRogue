@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void createWorld(){
-		world = new WorldBuilder(80, 60, 5)
+		world = new WorldBuilder(80, 60, 25)
 					.makeCaves()
 					.build();
 	}
@@ -86,7 +86,7 @@ public class PlayScreen implements Screen {
 		displayTiles(terminal, left, top);
 		displayMessages(terminal, messages);
 		
-		String stats = String.format("%3d/%3d HP - %8s", player.hp(), player.maxHp(), hunger());
+		String stats = String.format("%s/%s HP - %s %s - %s XP", player.hp(), player.maxHp(), player.food(), hunger(), player.xp());
 		terminal.write(stats, 80, 1);
 		
 		if (subscreen != null)
@@ -95,15 +95,15 @@ public class PlayScreen implements Screen {
 	
 	private String hunger(){
 		if (player.food() < player.maxFood() * 0.2)
-			return "Starving";
+			return "(Starving)";
 		else if (player.food() < player.maxFood() * 0.5)
-			return "Hungry";
+			return "(Hungry)";
 		else if (player.food() > player.maxFood() * 0.5)
-			return "Not Hungry";
+			return "(Not Hungry)";
 		else if (player.food() > player.maxFood() * 0.8)
-			return "Full";
+			return "(Full)";
 		else if (player.food() > player.maxFood() * 0.95)
-			return "Stuffed";
+			return "(Stuffed)";
 		else
 			return "";
 	}
@@ -113,7 +113,7 @@ public class PlayScreen implements Screen {
 		for (int i = 0; i < messages.size(); i++){
 			terminal.write(messages.get(i), 80, top + i);
 		}
-		if (messages.size() > 10) messages.clear();
+		if (messages.size() > 8) messages.clear();
 	}
 
 	private void displayTiles(AsciiPanel terminal, int left, int top) {

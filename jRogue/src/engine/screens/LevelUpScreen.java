@@ -24,7 +24,7 @@ public class LevelUpScreen implements Screen {
 		
 		int x = 80;
 		int y = 1;
-		terminal.clear(' ', x, y, 30, options.size() + 2);
+		terminal.clear(' ', x, y, 40, options.size() + 2);
 		terminal.write("   Choose a level up bonus    ", x, y++);
 		terminal.write("------------------------------", x, y++);
 		
