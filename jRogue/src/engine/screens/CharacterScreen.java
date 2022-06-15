@@ -15,17 +15,18 @@ public class CharacterScreen implements Screen {
 
     @Override
     public void displayOutput(AsciiPanel terminal) {
-		int x = 80;
+		int x = 88;
+        int y = 3;
+		terminal.clear(' ', x, y, 45, 30);
 
-		terminal.clear(' ', x, 1, 45, 30);
-
-		terminal.write("-- Character Information --", x, 1);
-        terminal.write("Level: " + player.level(), x, 2);
-        terminal.write("Experience: " + player.xp(), x, 3);
-        terminal.write("Health: " + player.hp() + "/" + player.maxHp(), x, 4);
-        terminal.write("Attack: " + player.attackValue(), x, 5);
-        terminal.write("Defense: " + player.defenseValue(), x, 6);
-        terminal.write("Food: " + player.food() + "/" + player.maxFood(), x, 7);
+		terminal.write("-- Character Information --", x, y++);
+        terminal.write("Level: " + player.level(), x, y++);
+        terminal.write("Experience: " + player.xp(), x, y++);
+        terminal.write("Health: " + player.hp() + "/" + player.maxHp(), x, y++);
+        terminal.write("Attack: " + player.attackValue(), x, y++);
+        terminal.write("Defense: " + player.defenseValue(), x, y++);
+        terminal.write("Food: " + player.food() + "/" + player.maxFood(), x, y++);
+        // TODO: Add mining level to char screen.
     }
 
     @Override

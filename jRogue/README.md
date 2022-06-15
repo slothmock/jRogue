@@ -10,6 +10,7 @@ Note that input is registered on the keyReleased event, this stops users from ho
 - `E` : Eat an item from your inventory.
 - `G` : Get an item from the floor.
 - `W` : Wield or wear an item.
+- `Shift + > or <` : Use the stairs.
 - `Esc` : To quit.
 
 ## Story

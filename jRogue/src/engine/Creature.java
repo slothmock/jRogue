@@ -1,7 +1,6 @@
 package engine;
 
 import java.awt.Color;
-import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Creature {
@@ -43,6 +42,9 @@ public class Creature {
 	private int visionRadius;
 	public int visionRadius() { return visionRadius; }
 
+	private int miningLevel;
+	public int miningLevel() { return miningLevel; }
+
 	private String name;
 	public String name() { return name; }
 
@@ -70,10 +72,11 @@ public class Creature {
 	private int xp;
 	public int xp() { return xp; }
 
-	private int randomXPGain;
-	public int randomXPGain() { 
-		randomXPGain = ThreadLocalRandom.current().nextInt(1, 4);
-		return randomXPGain;
+	private int miningXPGain;
+	public int miningXPGain() { 
+		miningXPGain = ThreadLocalRandom.current().nextInt(1, 5);
+		miningXPGain += miningLevel;  
+		return miningXPGain;
 	}
 
 	
@@ -86,6 +89,7 @@ public class Creature {
 		this.attackValue = attack;
 		this.defenseValue = defense;
 		this.visionRadius = 3;
+		this.miningLevel = 1;
 		this.name = name;
 		this.inventory = new Inventory(12);
 		this.maxFood = 1000;
@@ -104,14 +108,14 @@ public class Creature {
 			if (tile == Tile.STAIRS_DOWN) {
 				doAction("go up the stairs - level %d", z+mz+1);
 			} else {
-				doAction("try to go up but are stopped by the cave ceiling");
+				notify("Stopped by the cave ceiling");
 				return;
 			}
 		} else if (mz == 1){
 			if (tile == Tile.STAIRS_UP) {
 				doAction("go down the stairs - level %d", z+mz+1);
 			} else {
-				doAction("try to go down but are stopped by the cave floor");
+				notify("Stopped by the cave floor");
 				return;
 			}
 		}
@@ -189,7 +193,7 @@ public class Creature {
 		modifyFood(-10);
 		world.dig(wx, wy, wz);
 		doAction("dig");
-		modifyXp(randomXPGain());
+		modifyXp(miningXPGain());
 	}
 	
 	public void update(){
@@ -297,22 +301,23 @@ public class Creature {
 		if (item.name() == "Rock") {
 			notify("You break your tooth eating the rock.");
 			modifyHp(-2);
+			modifyFood(1);
 			inventory.remove(item);
 		} else if (item.foodValue() < 25) {
 			modifyFood(item.foodValue());
-			notify("You eat the %s", item.name());
+			notify("Ate - %s", item.name());
 			notify("It's not very good.");
 			inventory.remove(item);
 			unequip(item);
-		} else if (item.name().contains("remains") && (!item.name().contains("fungus"))) {
+		} else if (item.name().contains("remains") && (!item.name().contains("fungus") )) {
 			modifyFood(item.foodValue());
-			notify("You eat the %s", item.name());
+			notify("Ate - %s", item.name());
 			notify("It's disgusting!");
 			inventory.remove(item);
 			unequip(item);
 		} else {
 			modifyFood(item.foodValue());
-			notify("You eat the %s.", item.name());
+			notify("Ate - %s.", item.name());
 			inventory.remove(item);
 			unequip(item);
 		}
@@ -371,6 +376,11 @@ public class Creature {
 	public void gainVision() {
 		visionRadius += 1;
 		doAction("are more aware");
+	}
+
+	public void gainMiningLevel() {
+		miningLevel += 1;
+		doAction("dig better");
 	}
 
 	public void gainHunger() {

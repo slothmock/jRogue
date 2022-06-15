@@ -69,7 +69,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void createWorld(){
-		world = new WorldBuilder(80, 60, 25)
+		world = new WorldBuilder(87, 32, 25)
 					.makeCaves()
 					.build();
 	}
@@ -87,7 +87,7 @@ public class PlayScreen implements Screen {
 		displayMessages(terminal, messages);
 		
 		String stats = String.format("%s/%s HP - %s %s - %s XP", player.hp(), player.maxHp(), player.food(), hunger(), player.xp());
-		terminal.write(stats, 80, 1);
+		terminal.write(stats, 88, 1);
 		
 		if (subscreen != null)
 			subscreen.displayOutput(terminal);
@@ -111,7 +111,7 @@ public class PlayScreen implements Screen {
 	private void displayMessages(AsciiPanel terminal, List<String> messages) {
 		int top = screenHeight - messages.size();
 		for (int i = 0; i < messages.size(); i++){
-			terminal.write(messages.get(i), 80, top + i);
+			terminal.write(messages.get(i), 88, top + i);
 		}
 		if (messages.size() > 8) messages.clear();
 	}

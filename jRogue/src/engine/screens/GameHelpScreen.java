@@ -15,18 +15,19 @@ public class GameHelpScreen implements Screen {
 
     @Override
     public void displayOutput(AsciiPanel terminal) {
-		int x = 80;
+		int x = 88;
+        int y = 3;
+		terminal.clear(' ', x, y, 45, 30);
 
-		terminal.clear(' ', x, 1, 45, 30);
+		terminal.write("-- Help Screen --", x, y++);
+		terminal.write("Arrow Keys to move", x, y++);
+		terminal.write("(C)haracter Information", x, y++);
+		terminal.write("(D)rop an item", x, y++);
+		terminal.write("(E)at an item", x, y++);
+		terminal.write("(G)rab from the ground", x, y++);
+		terminal.write("(W)ield/Wear an item", x, y++);
 
-		terminal.write("-- Help Screen --", x, 1);
-		terminal.write("Arrow Keys to move", x, 3);
-		terminal.write("(C)haracter Information", x, 4);
-		terminal.write("(D)rop an item", x, 5);
-		terminal.write("(E)at an item", x, 6);
-		terminal.write("(G)rab from the ground", x, 7);
-		terminal.write("(W)ield/Wear an item", x, 8);
-
+        //TODO: Add stairs to help menu
 
 
     }

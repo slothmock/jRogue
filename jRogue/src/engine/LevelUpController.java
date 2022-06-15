@@ -20,6 +20,9 @@ public class LevelUpController {
 		},
 		new LevelUpOption("Increase Max Hunger"){
 			public void invoke(Creature creature) { creature.gainHunger(); }
+		},
+		new LevelUpOption("Increase Mining Ability"){
+			public void invoke(Creature creature) { creature.gainMiningLevel(); }
 		}
 	};
 	
