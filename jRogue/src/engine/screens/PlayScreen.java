@@ -55,11 +55,13 @@ public class PlayScreen implements Screen {
 
 	private void createItems(StuffFactory factory) {
 		for (int z = 0; z < world.depth(); z++){
-			for (int i = 0; i < world.width() * world.height() / 20; i++){
+			for (int i = 0; i < world.width() * world.height() / 15; i++){
 				factory.newRock(z);
 			}
+			Item item = new Item('%', AsciiPanel.brightRed, "Apple");
+			item.modifyFoodValue(100);
+			world.addAtEmptyLocation(item, z);
 
-			factory.newFruit(z);
 			factory.newEdibleWeapon(z);
 			factory.newBread(z);
 			factory.randomArmor(z);
@@ -70,35 +72,38 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void createWorld(){
-		world = new WorldBuilder(87, 32, 25)
+		world = new WorldBuilder(80, 23, 25)
 					.makeCaves()
 					.build();
 		messages.add(Config.INTRO_MSG);
 		messages.add(Config.HELP_MSG);
 	}
+
+
 	
-	public int getScrollX() { return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth)); }
-	
-	public int getScrollY() { return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight)); }
 	
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
-		int left = getScrollX();
-		int top = getScrollY();
 		int separatorY = 0; 
 		int separatorX = 0;
 		
-		displayTiles(terminal, left, top);
+		displayTiles(terminal);
 		displayMessages(terminal, messages);
+
+		
 		
 		String stats = String.format("%s/%s HP - %s - %s XP", player.hp(), player.maxHp(), hunger(), player.xp());
-		terminal.write(stats, 88, 1);
-		terminal.write("Message Log", 1, screenHeight + 1);
-		for (int i = 0; i < screenHeight + 13; i++) {
-			terminal.write("|", 86, separatorY++);
+		terminal.write(stats, screenWidth + 2, 1);
+		terminal.write("- Message Log - ", screenWidth + 2, 3);
+		for (int i = 0; i < screenHeight + 1; i++) {
+			terminal.write((char)177, screenWidth, separatorY++);
 		}
-		for (int i = 0; i < screenWidth + 6; i++) {
-			terminal.write("_", separatorX++, screenHeight);
+		for (int i = 24; i < 36; i++) {
+			terminal.write('|', screenWidth, separatorY++);
+		}
+
+		for (int i = 0; i < screenWidth; i++) {
+			terminal.write((char)177, separatorX++, screenHeight);
 		}
 		
 		if (subscreen != null)
@@ -123,20 +128,25 @@ public class PlayScreen implements Screen {
 	}
 
 	private void displayMessages(AsciiPanel terminal, List<String> messages) {
-		int top = screenHeight - messages.size() + 11;
-		for (int i = 0; i < messages.size(); i++){
-			terminal.write(messages.get(i), 1, top + i);
+		int top = screenHeight - messages.size() + 10;
+
+		for (int i = 0; i < messages.size(); i++) {
+			terminal.write(messages.get(i), screenWidth + 2, top + i);
 		}
-		if (messages.size() >= 8) messages.clear();
+			
+		if (messages.size() >= 26) {	
+			messages.clear();
+		}
 	}
 
-	private void displayTiles(AsciiPanel terminal, int left, int top) {
+
+	private void displayTiles(AsciiPanel terminal) {
 		fov.update(player.x, player.y, player.z, player.visionRadius());
 		
 		for (int x = 0; x < screenWidth; x++){
 			for (int y = 0; y < screenHeight; y++){
-				int wx = x + left;
-				int wy = y + top;
+				int wx = x;
+				int wy = y;
 
 				if (player.canSee(wx, wy, player.z))
 					terminal.write(world.glyph(wx, wy, player.z), x, y, world.color(wx, wy, player.z));

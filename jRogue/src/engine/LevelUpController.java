@@ -23,6 +23,14 @@ public class LevelUpController {
 		},
 		new LevelUpOption("Increase Mining Ability"){
 			public void invoke(Creature creature) { creature.gainMiningLevel(); }
+		},
+		new LevelUpOption("[TBA]"){
+			//TODO: Add stat
+			public void invoke(Creature creature) {}
+		},
+		new LevelUpOption("[TBA]"){
+			//TODO: Add stat
+			public void invoke(Creature creature) {}
 		}
 	};
 	

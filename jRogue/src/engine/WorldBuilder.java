@@ -191,7 +191,7 @@ public class WorldBuilder {
 
 	public WorldBuilder makeCaves() {
 		return randomizeTiles()
-				.smooth(8)
+				.smooth(2)
 				.createRegions()
 				.connectRegions()
 				.addExitStairs();

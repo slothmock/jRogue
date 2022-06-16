@@ -22,8 +22,8 @@ public class LevelUpScreen implements Screen {
 	public void displayOutput(AsciiPanel terminal) {
 		List<String> options = controller.getLevelUpOptions();
 		
-		int x = 88;
-		int y = 3;
+		int x = 1;
+		int y = 25;
 		terminal.clear(' ', x, y, 40, options.size() + 2);
 		terminal.write("   Choose a level up bonus    ", x, y++);
 		terminal.write("------------------------------", x, y++);

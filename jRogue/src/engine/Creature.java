@@ -91,8 +91,8 @@ public class Creature {
 		this.visionRadius = 3;
 		this.miningLevel = 1;
 		this.name = name;
-		this.inventory = new Inventory(12);
-		this.maxFood = 1000;
+		this.inventory = new Inventory(7);
+		this.maxFood = 750;
 		this.food = maxFood;
 		this.level = 1;
 	}
@@ -262,7 +262,7 @@ public class Creature {
 		if (item == null){
 			doAction("grab at the ground");
 		} else if (inventory.isFull()) {
-			notify("Can't pick up %s because inventory is full", item.name());
+			notify("Can't pick up - %s - Inventory is full", item.name());
 		} else {
 			doAction("picked up - %s", item.name());
 			world.remove(x, y, z);

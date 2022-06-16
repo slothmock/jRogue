@@ -24,20 +24,18 @@ public abstract class InventoryBasedScreen implements Screen {
 	public void displayOutput(AsciiPanel terminal) {
 		ArrayList<String> lines = getList();
 		
-		int y = 3;
-		int x = 88;
+		int y = 24;
+		int x = 1;		
 
-		if (lines.size() > 0)
-			terminal.clear(' ', x, y, 45, 20);
-		
-
-		terminal.clear(' ', x, y, 45, 20);
+		terminal.clear(' ', x, y, 45, 6);
 		terminal.write("What would you like to " + getVerb() + "? [Esc] to close", x, y);
 
+		
 		for (String line : lines){
 			terminal.write(line, x, y++ + 1);
-		}
-		
+
+
+	}
 		
 		terminal.repaint();
 	}

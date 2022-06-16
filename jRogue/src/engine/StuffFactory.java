@@ -12,7 +12,7 @@ public class StuffFactory {
 	}
 	
 	public Creature newPlayer(List<String> messages, FieldOfView fov){
-		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 100, 20, 5);
+		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 75, 20, 5);
 		world.addAtEmptyLocation(player, 0);
 		new PlayerAi(player, messages, fov);
 		return player;
@@ -59,16 +59,16 @@ public class StuffFactory {
 		return item;
 	}
 	
-	public Item newFruit(int depth){
-		Item item = new Item('%', AsciiPanel.brightRed, "Apple");
-		item.modifyFoodValue(100);
+	public Item newOlive(int depth){
+		Item item = new Item('%', AsciiPanel.green, "Olives");
+		item.modifyFoodValue(20);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
 
-	public Item newOlive(int depth){
-		Item item = new Item('%', AsciiPanel.green, "Olives");
-		item.modifyFoodValue(20);
+	public Item newApple(int depth){
+		Item item = new Item('%', AsciiPanel.brightRed, "Apple");
+		item.modifyFoodValue(50);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
