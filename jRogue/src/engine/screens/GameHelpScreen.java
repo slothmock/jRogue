@@ -26,18 +26,20 @@ public class GameHelpScreen implements Screen {
 		terminal.write("(E)at an item", x, y++);
 		terminal.write("(G)rab from the ground", x, y++);
 		terminal.write("(W)ield/Wear an item", x, y++);
+        terminal.write("(H)elp Menu", x, y++);
+        terminal.write("Shift + < or Shift + > to use stairs", x, y++);
+        terminal.write("Press [H] to close this menu", x, y + 2);
 
-        //TODO: Add stairs to help menu
 
 
     }
 
     @Override
     public Screen respondToUserInput(KeyEvent key) {
-        if (key.getKeyCode() == KeyEvent.VK_ESCAPE || key.getKeyCode() == KeyEvent.VK_H) {
+        if (key.getKeyCode() == KeyEvent.VK_H) {
 			return null;
-		} else {
-			return this;
+        } else {
+            return this;
         }
     }
 }

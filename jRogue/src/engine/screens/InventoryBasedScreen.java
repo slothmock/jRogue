@@ -32,7 +32,7 @@ public abstract class InventoryBasedScreen implements Screen {
 		
 
 		terminal.clear(' ', x, y, 45, 20);
-		terminal.write("What would you like to " + getVerb() + "?", x, y);
+		terminal.write("What would you like to " + getVerb() + "? [Esc] to close", x, y);
 
 		for (String line : lines){
 			terminal.write(line, x, y++ + 1);

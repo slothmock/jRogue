@@ -8,16 +8,19 @@ public class MenuHelpScreen implements Screen {
 
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
-		terminal.writeCenter("-- Help Screen --", 2);
-		terminal.writeCenter("Arrow Keys to move", 5);
-		terminal.writeCenter("(C)haracter Information", 6);
-		terminal.writeCenter("(D)rop an item", 7);
-		terminal.writeCenter("(E)at an item", 8);
-		terminal.writeCenter("(G)rab an item from the floor", 9);
-		terminal.writeCenter("(W)ield/Wear an item", 10);
+		int y = 3;
+		terminal.writeCenter("-- Help Screen --", 1);
+		terminal.writeCenter("Arrow Keys to move", y++);
+		terminal.writeCenter("(C)haracter Information", y++);
+		terminal.writeCenter("(D)rop an item", y++);
+		terminal.writeCenter("(E)at an item", y++);
+		terminal.writeCenter("(G)rab an item from the floor", y++);
+		terminal.writeCenter("(W)ield/Wear an item", y++);
+		terminal.writeCenter("Shift + > or < to use stairs", y++);
+		terminal.writeCenter("Home/End to quit the game", y++);
 		
 		
-		terminal.writeCenter("-- Press [Enter] to go back --", 12);
+		terminal.writeCenter("-- Press [Enter] to go back --", y + 2);
 	}
 
 	@Override

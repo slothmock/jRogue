@@ -73,6 +73,8 @@ public class PlayScreen implements Screen {
 		world = new WorldBuilder(87, 32, 25)
 					.makeCaves()
 					.build();
+		messages.add(Config.INTRO_MSG);
+		messages.add(Config.HELP_MSG);
 	}
 	
 	public int getScrollX() { return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth)); }
@@ -104,16 +106,16 @@ public class PlayScreen implements Screen {
 	}
 	
 	private String hunger(){
-		if (player.food() <= player.maxFood() * 0.2)
+		if (player.food() < player.maxFood() * 0.3)
 			return "Starving";
 
-		else if (player.food() >= player.maxFood() * 0.95)
+		else if (player.food() >= player.maxFood() * 0.8)
 			return "Full";
 
-		else if (player.food() > player.maxFood() * 0.5)
+		else if (player.food() > player.maxFood() * 0.6)
 			return "Peckish";
 
-		else if (player.food() < player.maxFood() * 0.5)
+		else if (player.food() > player.maxFood() * 0.3)
 			return "Hungry";
 
 		else
@@ -150,7 +152,8 @@ public class PlayScreen implements Screen {
 		if (subscreen != null) {
 			subscreen = subscreen.respondToUserInput(key);
 		} else switch (key.getKeyCode()) {
-			case KeyEvent.VK_ESCAPE: System.exit(0);
+			case KeyEvent.VK_HOME:
+			case KeyEvent.VK_END: System.exit(0);
 			case KeyEvent.VK_LEFT: player.moveBy(-1, 0, 0); break;
 			case KeyEvent.VK_RIGHT: player.moveBy( 1, 0, 0); break;
 			case KeyEvent.VK_UP: player.moveBy( 0,-1, 0); break;
@@ -175,16 +178,20 @@ public class PlayScreen implements Screen {
 				else
 					player.moveBy( 0, 0, -1); break;
 			case '>': player.moveBy( 0, 0, 1); break;
+			case '?': subscreen = new GameHelpScreen(player); break;
 			}
 
 		if (player.level() > level)
 			subscreen = new LevelUpScreen(player, player.level() - level);
 		
+		if (player.food() < 1)
+			return new HungerDeathScreen();
+
+		if (player.hp() < 1)
+			return new DiedScreen();
+
 		if (subscreen == null)
 			world.update();
-		
-		if (player.hp() < 1)
-			return new LoseScreen();
 		
 		return this;
 	}
@@ -198,6 +205,6 @@ public class PlayScreen implements Screen {
 			if (item != null && item.name().equals("Cactus"))
 				return new WinScreen();
 		}
-		return new LoseScreen();
+		return new NoCactusScreen();
 	}
 }

@@ -26,12 +26,13 @@ public class CharacterScreen implements Screen {
         terminal.write("Attack: " + player.attackValue(), x, y++);
         terminal.write("Defense: " + player.defenseValue(), x, y++);
         terminal.write("Food: " + player.food() + "/" + player.maxFood(), x, y++);
-        // TODO: Add mining level to char screen.
+        terminal.write("Mining: " + player.miningLevel(), x, y++);
+        terminal.write("-- Press [C] to exit this menu --", x, y + 1);
     }
 
     @Override
     public Screen respondToUserInput(KeyEvent key) {
-        if (key.getKeyCode() == KeyEvent.VK_ESCAPE || key.getKeyCode() == KeyEvent.VK_C) {
+        if (key.getKeyCode() == KeyEvent.VK_C) {
 			return null;
 		} else {
 			return this;
