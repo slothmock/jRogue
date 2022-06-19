@@ -30,5 +30,20 @@ public class Item {
 		this.color = color;
 		this.name = name;
 	}
+
+	public String details() {
+		String details = "";
+	
+		if (attackValue != 0)
+			details += "Attack: " + attackValue;
+	
+		if (defenseValue != 0)
+			details += "Defense: " + defenseValue;
+	
+		if (foodValue != 0)
+			details += "Food: " + foodValue;
+		
+		return details;
+	}
 }
 

@@ -41,13 +41,13 @@ public class PlayScreen implements Screen {
 		player = factory.newPlayer(messages, fov);
 		
 		for (int z = 0; z < world.depth(); z++){
-			for (int i = 0; i < 8; i++){
+			for (int i = 0; i < 10; i++){
 				factory.newFungus(z);
 			}
-			for (int i = 0; i < 20; i++){
+			for (int i = 0; i < 25; i++){
 				factory.newBat(z);
 			}
-			for (int i = 0; i < z + 3; i++){
+			for (int i = 0; i < z + 4; i++){
 				factory.newZombie(z, player);
 			}
 		}
@@ -55,7 +55,7 @@ public class PlayScreen implements Screen {
 
 	private void createItems(StuffFactory factory) {
 		for (int z = 0; z < world.depth(); z++){
-			for (int i = 0; i < world.width() * world.height() / 15; i++){
+			for (int i = 0; i < world.width() * world.height() / 5; i++){
 				factory.newRock(z);
 			}
 			Item item = new Item('%', AsciiPanel.brightRed, "Apple");
@@ -72,7 +72,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private void createWorld(){
-		world = new WorldBuilder(80, 23, 25)
+		world = new WorldBuilder(80, 23, 10)
 					.makeCaves()
 					.build();
 		messages.add(Config.INTRO_MSG);
@@ -92,7 +92,8 @@ public class PlayScreen implements Screen {
 
 		
 		
-		String stats = String.format("%s/%s HP - %s - %s XP", player.hp(), player.maxHp(), hunger(), player.xp());
+		String stats = String.format("%s/%s HP - %s - %s XP - Dungeon Level: %s", 
+									player.hp(), player.maxHp(), hunger(), player.xp(), player.z + 1);
 		terminal.write(stats, screenWidth + 2, 1);
 		terminal.write("- Message Log - ", screenWidth + 2, 3);
 		for (int i = 0; i < screenHeight + 1; i++) {
@@ -111,10 +112,10 @@ public class PlayScreen implements Screen {
 	}
 	
 	private String hunger(){
-		if (player.food() < player.maxFood() * 0.3)
+		if (player.food() <= player.maxFood() * 0.3)
 			return "Starving";
 
-		else if (player.food() >= player.maxFood() * 0.8)
+		else if (player.food() > player.maxFood() * 0.8)
 			return "Full";
 
 		else if (player.food() > player.maxFood() * 0.6)
@@ -177,6 +178,9 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
 			case KeyEvent.VK_H: subscreen = new GameHelpScreen(player); break;
 			case KeyEvent.VK_C: subscreen = new CharacterScreen(player); break;
+			case KeyEvent.VK_X: subscreen = new ExamineScreen(player); break;
+			case KeyEvent.VK_SLASH: subscreen = new LookScreen(
+				player, "Looking",	player.x, player.y); break;
 			}
 			
 			switch (key.getKeyChar()){

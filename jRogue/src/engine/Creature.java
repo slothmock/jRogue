@@ -153,11 +153,11 @@ public class Creature {
 	}
 
 	private void levelCheck() {
-		while (xp > (int)(Math.pow(level, 1.5) * 20)) {
+		while (xp > (int)(Math.pow(level, 1.5) * 30)) {
 			level++;
 			doAction("advance to level %d", level);
 			ai.onGainLevel();
-			modifyHp(level * 2);
+			modifyHp(level * 3);
 		}
 	}
 	
@@ -249,12 +249,18 @@ public class Creature {
 	}
 
 	public Tile tile(int wx, int wy, int wz) {
-		return world.tile(wx, wy, wz);
-	}
+        if (canSee(wx, wy, wz))
+            return world.tile(wx, wy, wz);
+        else
+            return ai.rememberedTile(wx, wy, wz);
+    }
 
 	public Creature creature(int wx, int wy, int wz) {
-		return world.creature(wx, wy, wz);
-	}
+        if (canSee(wx, wy, wz))
+            return world.creature(wx, wy, wz);
+        else
+            return null;
+    }
 	
 	public void pickup(){
 		Item item = world.item(x, y, z);
@@ -388,4 +394,18 @@ public class Creature {
 		food = maxFood;
 		doAction("get hungry less often");
 	}
+
+    public Tile realTile(int wx, int wy, int wz) {
+        return world.tile(wx, wy, wz);
+    }
+
+	public Item item(int wx, int wy, int wz) {
+        if (canSee(wx, wy, wz))
+            return world.item(wx, wy, wz);
+        else
+            return null;
+    }
+	public String details() {
+        return String.format("Level:%d - Attack:%d - Defense:%d - HP:%d", level, attackValue(), defenseValue(), hp);
+    }
 }

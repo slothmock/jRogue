@@ -184,14 +184,14 @@ public class WorldBuilder {
 			y = (int)(Math.random() * height);
 		}
 		while (tiles[x][y][0] != Tile.FLOOR);
-		
 		tiles[x][y][0] = Tile.STAIRS_UP;
+		
 		return this;
 	}
 
 	public WorldBuilder makeCaves() {
 		return randomizeTiles()
-				.smooth(2)
+				.smooth(1)
 				.createRegions()
 				.connectRegions()
 				.addExitStairs();

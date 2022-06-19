@@ -15,7 +15,7 @@ public class GameHelpScreen implements Screen {
 
     @Override
     public void displayOutput(AsciiPanel terminal) {
-		int x = 88;
+		int x = 82;
         int y = 3;
 		terminal.clear(' ', x, y, 45, 20);
 
@@ -29,9 +29,6 @@ public class GameHelpScreen implements Screen {
         terminal.write("(H)elp Menu", x, y++);
         terminal.write("Shift + < or Shift + > to use stairs", x, y++);
         terminal.write("Press [H] to close this menu", x, y + 2);
-
-
-
     }
 
     @Override
