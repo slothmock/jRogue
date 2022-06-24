@@ -18,16 +18,13 @@ import engine.WorldBuilder;
 public class PlayScreen implements Screen {
 	private World world;
 	private Creature player;
-	private int screenWidth;
-	private int screenHeight;
+	private int mapWidth = Config.MAP_W;
+	private int mapHeight = Config.MAP_H;
 	private List<String> messages;
-	//TODO: Add message history
 	private FieldOfView fov;
 	private Screen subscreen;
 	
 	public PlayScreen(){
-		screenWidth = Config.SCREEN_W;
-		screenHeight = Config.SCREEN_H;
 		messages = new ArrayList<String>();
 		createWorld();
 		fov = new FieldOfView(world);
@@ -94,17 +91,17 @@ public class PlayScreen implements Screen {
 		
 		String stats = String.format("%s/%s HP - %s - Dungeon: %s - Turn: %s",
 										player.hp(), player.maxHp(), hunger(), player.z + 1, player.numberOfTurns() + 1);
-		terminal.write(stats, screenWidth + 2, 1);
-		terminal.write("- Message Log - ", screenWidth + 2, 3);
-		for (int i = 0; i < screenHeight + 1; i++) {
-			terminal.write((char)177, screenWidth, separatorY++);
+		terminal.write(stats, mapWidth + 2, 1);
+		terminal.write("- Message Log - ", mapWidth + 2, 3);
+		for (int i = 0; i < mapHeight + 1; i++) {
+			terminal.write((char)177, mapWidth, separatorY++);
 		}
 		for (int i = 24; i < 36; i++) {
-			terminal.write('|', screenWidth, separatorY++);
+			terminal.write('|', mapWidth, separatorY++);
 		}
 
-		for (int i = 0; i < screenWidth; i++) {
-			terminal.write((char)177, separatorX++, screenHeight);
+		for (int i = 0; i < mapWidth; i++) {
+			terminal.write((char)177, separatorX++, mapHeight);
 		}
 		
 		if (subscreen != null)
@@ -129,10 +126,9 @@ public class PlayScreen implements Screen {
 	}
 
 	private void displayMessages(AsciiPanel terminal, List<String> messages) {
-		int top = screenHeight - messages.size() + 10;
 
 		for (int i = 0; i < messages.size(); i++) {
-			terminal.write(messages.get(i), screenWidth + 2, top + i);
+			terminal.write(messages.get(i), mapWidth + 2, i + 6);
 		}
 			
 		if (messages.size() >= 22) {	
@@ -144,8 +140,8 @@ public class PlayScreen implements Screen {
 	private void displayTiles(AsciiPanel terminal) {
 		fov.update(player.x, player.y, player.z, player.visionRadius());
 		
-		for (int x = 0; x < screenWidth; x++){
-			for (int y = 0; y < screenHeight; y++){
+		for (int x = 0; x < mapWidth; x++){
+			for (int y = 0; y < mapHeight; y++){
 				int wx = x;
 				int wy = y;
 
@@ -176,6 +172,7 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
 			case KeyEvent.VK_H: subscreen = new GameHelpMenu(player); break;
+			case KeyEvent.VK_V: subscreen = new MessageLogScreen(player, player.allMessages()); break;
 			case KeyEvent.VK_C: subscreen = new CharacterScreen(player); break;
 			case KeyEvent.VK_X: subscreen = new ExamineScreen(player); break;
 			case KeyEvent.VK_T: subscreen = new ThrowScreen(player, 

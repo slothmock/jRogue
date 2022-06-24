@@ -63,7 +63,7 @@ public class StuffFactory {
 	}
 	
 	public Item newBread(int depth){
-		Item item = new Item('%', AsciiPanel.yellow, "Some Bread");
+		Item item = new Item('%', AsciiPanel.yellow, "Loaf of Bread");
 		item.modifyFoodValue(200);
 		world.addAtEmptyLocation(item, depth);
 		return item;
