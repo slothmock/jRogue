@@ -20,7 +20,7 @@ public class StartScreen implements Screen {
 			case KeyEvent.VK_ENTER:
 				return new PlayScreen();
 			case KeyEvent.VK_H:
-				return new MenuHelpScreen();
+				return new HelpScreen();
 			case KeyEvent.VK_ESCAPE:
 				System.exit(0);
 			default:

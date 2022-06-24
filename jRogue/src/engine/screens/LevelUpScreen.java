@@ -3,6 +3,7 @@ package engine.screens;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
+
 import engine.Creature;
 import engine.LevelUpController;
 import asciiPanel.AsciiPanel;
@@ -22,14 +23,19 @@ public class LevelUpScreen implements Screen {
 	public void displayOutput(AsciiPanel terminal) {
 		List<String> options = controller.getLevelUpOptions();
 		
-		int x = 1;
-		int y = 25;
-		terminal.clear(' ', x, y, 40, options.size() + 2);
-		terminal.write("   Choose a level up bonus    ", x, y++);
-		terminal.write("------------------------------", x, y++);
+		int x = 0;
+		int x2 = 40;
+		int y = 27; 
 		
-		for (int i = 0; i < options.size(); i++){
-			terminal.write(String.format("[%d] %s", i+1, options.get(i)), x, y++);
+		terminal.clear(' ', x, y, 40, 9);
+		terminal.write("- Choose your level up bonus -", 20, 25);
+		
+		for (int i = 0; i < options.size() - 3; i++){
+			terminal.write(String.format("[%d] %s", i + 1, options.get(i)), x, y++);
+		};
+		y = 27;
+		for (int i2 = 4; i2 < options.size(); i2++){
+			terminal.write(String.format("[%d] %s", i2 + 1, options.get(i2)), x2, y++);
 		}
 	}
 

@@ -96,6 +96,19 @@ public class World {
 	public void remove(Creature other) {
 		creatures.remove(other);
 	}
+
+	public void remove(Item item) {
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                for (int z = 0; z < depth; z++){
+                if (items[x][y][z] == item) {
+                    items[x][y][z] = null;
+                    return;
+                }
+            }
+        }
+    }
+}
 	
 	public Item item(int x, int y, int z){
 		return items[x][y][z];
@@ -138,7 +151,7 @@ public class World {
 				items[p.x][p.y][p.z] = item;
 				Creature c = this.creature(p.x, p.y, p.z);
 				if (c != null)
-					c.notify("A %s lands between your feet.", item.name());
+					c.notify("A %s lands on the ground.", item.name());
 				return true;
 			} else {
 				List<Point> neighbors = p.neighbors8();
@@ -148,4 +161,7 @@ public class World {
 		}
 		return false;
 	}
+
+    public void add(Creature other) {
+    }
 }

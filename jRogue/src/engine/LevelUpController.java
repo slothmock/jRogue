@@ -7,16 +7,19 @@ public class LevelUpController {
 
 	private static LevelUpOption[] options = new LevelUpOption[]{
 		new LevelUpOption("Increase Health"){
-			public void invoke(Creature creature) { creature.gainMaxHp(); }
+			public void invoke(Creature creature) { creature.gainMaxHp(10); }
+		},
+		new LevelUpOption("Increase HP Regen"){
+			public void invoke(Creature creature) {creature.gainHpRegen(1); }
 		},
 		new LevelUpOption("Increase Attack"){
-			public void invoke(Creature creature) { creature.gainAttackValue(); }
+			public void invoke(Creature creature) { creature.gainAttackValue(2); }
 		},
 		new LevelUpOption("Increase Defense"){
-			public void invoke(Creature creature) { creature.gainDefenseValue(); }
+			public void invoke(Creature creature) { creature.gainDefenseValue(2); }
 		},
 		new LevelUpOption("Increase Vision"){
-			public void invoke(Creature creature) { creature.gainVision(); }
+			public void invoke(Creature creature) { creature.gainVision(1); }
 		},
 		new LevelUpOption("Increase Max Hunger"){
 			public void invoke(Creature creature) { creature.gainHunger(); }
@@ -24,14 +27,6 @@ public class LevelUpController {
 		new LevelUpOption("Increase Mining Ability"){
 			public void invoke(Creature creature) { creature.gainMiningLevel(); }
 		},
-		new LevelUpOption("[TBA]"){
-			//TODO: Add stat
-			public void invoke(Creature creature) {}
-		},
-		new LevelUpOption("[TBA]"){
-			//TODO: Add stat
-			public void invoke(Creature creature) {}
-		}
 	};
 	
 	public void autoLevelUp(Creature creature){

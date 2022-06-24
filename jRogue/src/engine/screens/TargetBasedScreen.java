@@ -28,11 +28,11 @@ public abstract class TargetBasedScreen implements Screen {
 			if (p.x < 0 || p.x >= 80 || p.y < 0 || p.y >= 24)
 				continue;
 			
-			terminal.write('*', p.x, p.y, AsciiPanel.brightMagenta);
+			terminal.write('*', p.x, p.y, AsciiPanel.brightWhite);
 		}
 		
-		terminal.clear(' ', 0, 24, 80, 1);
-		terminal.write(caption, 0, 24);
+		terminal.clear(' ', 0, 23, 80, 1);
+		terminal.write(caption, 0, 23);
 	}
 
 	@Override

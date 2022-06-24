@@ -24,26 +24,45 @@ public class Item {
 	private int defenseValue;
 	public int defenseValue() { return defenseValue; }
 	public void modifyDefenseValue(int amount) { defenseValue += amount; }
+
+	private int thrownAttackValue;
+    public int thrownAttackValue() { return thrownAttackValue; }
+    public void modifyThrownAttackValue(int amount) { thrownAttackValue += amount; }
+
+	private int rangedAttackValue;
+    public int rangedAttackValue() { return rangedAttackValue; }
+    public void modifyRangedAttackValue(int amount) { rangedAttackValue += amount; }
+
+	private Effect quaffEffect;
+	public Effect quaffEffect() { return quaffEffect; }
+	public void setQuaffEffect(Effect effect) { this.quaffEffect = effect; }
+
 	
 	public Item(char glyph, Color color, String name){
 		this.glyph = glyph;
 		this.color = color;
 		this.name = name;
+		this.thrownAttackValue = 1;
 	}
 
 	public String details() {
 		String details = "";
-	
+		
 		if (attackValue != 0)
-			details += "Attack: " + attackValue;
-	
+			details += "  attack:" + attackValue;
+
+		if (thrownAttackValue != 1)
+			details += "  thrown:" + thrownAttackValue;
+		
+		if (rangedAttackValue > 0)
+			details += "  ranged:" + rangedAttackValue;
+		
 		if (defenseValue != 0)
-			details += "Defense: " + defenseValue;
-	
+			details += "  defense:" + defenseValue;
+
 		if (foodValue != 0)
-			details += "Food: " + foodValue;
+			details += "  food:" + foodValue;
 		
 		return details;
 	}
 }
-

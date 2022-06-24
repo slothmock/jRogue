@@ -41,14 +41,17 @@ public class PlayScreen implements Screen {
 		player = factory.newPlayer(messages, fov);
 		
 		for (int z = 0; z < world.depth(); z++){
-			for (int i = 0; i < 10; i++){
+			for (int i = 0; i < 20; i++){
 				factory.newFungus(z);
 			}
-			for (int i = 0; i < 25; i++){
+			for (int i = 0; i < 20; i++){
 				factory.newBat(z);
 			}
-			for (int i = 0; i < z + 4; i++){
+			for (int i = 0; i < z + 10; i++){
 				factory.newZombie(z, player);
+			}
+			for (int i = 0; i < z + 8; i++){
+				factory.newGoblin(z, player);
 			}
 		}
 	}
@@ -58,15 +61,12 @@ public class PlayScreen implements Screen {
 			for (int i = 0; i < world.width() * world.height() / 5; i++){
 				factory.newRock(z);
 			}
-			Item item = new Item('%', AsciiPanel.brightRed, "Apple");
-			item.modifyFoodValue(100);
-			world.addAtEmptyLocation(item, z);
-
-			factory.newEdibleWeapon(z);
-			factory.newBread(z);
-			factory.randomArmor(z);
-			factory.randomWeapon(z);
-			factory.randomWeapon(z);
+			for (int i = 0; i < 10; i++){
+				factory.randomFood(z);
+				factory.randomArmor(z);
+				factory.randomWeapon(z);
+				factory.randomPotion(z);
+			}
 		}
 		factory.newVictoryItem(world.depth() - 1);
 	}
@@ -92,8 +92,8 @@ public class PlayScreen implements Screen {
 
 		
 		
-		String stats = String.format("%s/%s HP - %s - %s XP - Dungeon Level: %s", 
-									player.hp(), player.maxHp(), hunger(), player.xp(), player.z + 1);
+		String stats = String.format("%s/%s HP - %s - Dungeon: %s - Turn: %s",
+										player.hp(), player.maxHp(), hunger(), player.z + 1, player.numberOfTurns() + 1);
 		terminal.write(stats, screenWidth + 2, 1);
 		terminal.write("- Message Log - ", screenWidth + 2, 3);
 		for (int i = 0; i < screenHeight + 1; i++) {
@@ -135,7 +135,7 @@ public class PlayScreen implements Screen {
 			terminal.write(messages.get(i), screenWidth + 2, top + i);
 		}
 			
-		if (messages.size() >= 26) {	
+		if (messages.size() >= 22) {	
 			messages.clear();
 		}
 	}
@@ -163,22 +163,30 @@ public class PlayScreen implements Screen {
 		if (subscreen != null) {
 			subscreen = subscreen.respondToUserInput(key);
 		} else switch (key.getKeyCode()) {
-			case KeyEvent.VK_HOME:
+			case KeyEvent.VK_HOME: return new StartScreen();
 			case KeyEvent.VK_END: System.exit(0);
+			
 			case KeyEvent.VK_LEFT: player.moveBy(-1, 0, 0); break;
 			case KeyEvent.VK_RIGHT: player.moveBy( 1, 0, 0); break;
 			case KeyEvent.VK_UP: player.moveBy( 0,-1, 0); break;
 			case KeyEvent.VK_DOWN: player.moveBy( 0, 1, 0); break;
-			case KeyEvent.VK_Y: player.moveBy(-1,-1, 0); break;
-			case KeyEvent.VK_U: player.moveBy( 1,-1, 0); break;
-			case KeyEvent.VK_B: player.moveBy(-1, 1, 0); break;
-			case KeyEvent.VK_N: player.moveBy( 1, 1, 0); break;
+			case KeyEvent.VK_R: player.rest(); break;
+
 			case KeyEvent.VK_D: subscreen = new DropScreen(player); break;
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
-			case KeyEvent.VK_H: subscreen = new GameHelpScreen(player); break;
+			case KeyEvent.VK_H: subscreen = new GameHelpMenu(player); break;
 			case KeyEvent.VK_C: subscreen = new CharacterScreen(player); break;
 			case KeyEvent.VK_X: subscreen = new ExamineScreen(player); break;
+			case KeyEvent.VK_T: subscreen = new ThrowScreen(player, 
+											player.x, player.y); break;
+			case KeyEvent.VK_I: subscreen = new InventoryScreen(player); break;
+			case KeyEvent.VK_Q: subscreen = new QuaffScreen(player); break;
+			case KeyEvent.VK_F:
+				if (player.weapon() == null || player.weapon().rangedAttackValue() == 0)
+					player.notify("You don't have a ranged weapon equipped.");
+				else
+					subscreen = new FireWeaponScreen(player, player.x, player.y); break;
 			case KeyEvent.VK_SLASH: subscreen = new LookScreen(
 				player, "Looking",	player.x, player.y); break;
 			}
@@ -192,17 +200,17 @@ public class PlayScreen implements Screen {
 				else
 					player.moveBy( 0, 0, -1); break;
 			case '>': player.moveBy( 0, 0, 1); break;
-			case '?': subscreen = new GameHelpScreen(player); break;
+			case '?': subscreen = new GameHelpMenu(player); break;
 			}
 
 		if (player.level() > level)
 			subscreen = new LevelUpScreen(player, player.level() - level);
 		
 		if (player.food() < 1)
-			return new HungerDeathScreen();
+			return new DeathScreen(player);
 
 		if (player.hp() < 1)
-			return new DiedScreen();
+			return new DeathScreen(player);
 
 		if (subscreen == null)
 			world.update();

@@ -36,4 +36,21 @@ public class Inventory {
 		}
 		return size == items.length;
 	}
+    
+	public boolean contains(Item item) {
+		for (Item i : items){
+			if (i == item)
+				return true;
+		}
+		return false;
+	}
+
+	public int currentCapacity() {
+		int size = 0;
+		for (int i = 0; i < items.length; i++){
+			if (items[i] != null)
+				size++;
+		}
+		return size;
+	}
 }
