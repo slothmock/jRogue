@@ -3,7 +3,7 @@ package engine;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
+
 
 public class Creature {
 	private World world;
@@ -81,10 +81,12 @@ public class Creature {
 	
 	private int xp;
 	public int xp() { return xp; }
+	
+	public int xpToNextLevel() { return (int)(Math.pow(level, 1.75) * 30); }
 
 	private int miningXPGain;
 	public int miningXPGain() { 
-		miningXPGain = ThreadLocalRandom.current().nextInt(1, 5);
+		miningXPGain = (int)Math.random() * (level * 2) + 1;
 		miningXPGain += miningLevel;  
 		return miningXPGain;
 	}
@@ -217,11 +219,11 @@ public class Creature {
 	}
 
 	private void levelCheck() {
-		while (xp > (int)(Math.pow(level, 1.5) * 30)) {
+		while (xp > xpToNextLevel()) {
 			level++;
 			doAction("advance to level %d", level);
 			ai.onGainLevel();
-			modifyHp(level * 3, "gained level");
+			modifyHp(level * 4, "gained level");
 		}
 	}
 	
@@ -229,7 +231,7 @@ public class Creature {
 		int amount = other.maxHp 
 			+ other.attackValue() 
 			+ other.defenseValue()
-			- level;
+			- (int)(level * 1.5);
 		
 		if (amount > 0)
 			modifyXp(amount);

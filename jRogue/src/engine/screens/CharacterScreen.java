@@ -23,7 +23,7 @@ public class CharacterScreen implements Screen {
 
 		terminal.write("-- Character  Information --", 26, y++);
         terminal.write("Level: " + player.level(), x, y++ + 1);
-        terminal.write("Experience: " + player.xp(), x, y++ + 1);
+        terminal.write("Experience: " + player.xp() + "/" + player.xpToNextLevel(), x, y++ + 1);
         terminal.write("Health: " + player.hp() + "/" + player.maxHp(), x, y++ + 1);
         terminal.write("HP Regen: " + player.regenHpAmount(), x, y++ + 1);
         y = 26;
@@ -36,7 +36,7 @@ public class CharacterScreen implements Screen {
 
     @Override
     public Screen respondToUserInput(KeyEvent key) {
-        if (key.getKeyCode() == KeyEvent.VK_C) {
+        if (key.getKeyCode() == KeyEvent.VK_ESCAPE) {
 			return null;
 		} else {
 			return this;
