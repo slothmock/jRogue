@@ -97,6 +97,9 @@ public class Creature {
 	private int numberOfTurns;
 	public int numberOfTurns() { return numberOfTurns; }
 
+	List<String> allMessages = new ArrayList<String>();
+	public List<String> allMessages() { return allMessages; }
+
 	
 	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense){
 		this.world = world;
@@ -115,6 +118,7 @@ public class Creature {
 		this.level = 1;
 		this.regenHpAmount = 3;
 		this.effects = new ArrayList<Effect>();
+		this.allMessages = allMessages();
 	}
 	
 	public void moveBy(int mx, int my, int mz){
@@ -266,6 +270,7 @@ public class Creature {
         world.addAtEmptySpace(corpse, x, y, z);
         for (Item item : inventory.getItems()){
             if (item != null)
+				unequip(item);
                 drop(item);
             }
     }
@@ -303,6 +308,7 @@ public class Creature {
 	}
 
 	public void notify(String message, Object ... params){
+		allMessages.add(String.format(message, params));
 		ai.onNotify(String.format(message, params));
 	}
 	
@@ -365,15 +371,19 @@ public class Creature {
 		} else if (inventory.isFull()) {
 			notify("Can't pick up - %s - Inventory is full", item.name());
 		} else {
-			doAction("picked up - %s", item.name());
+			doAction("pick up - %s", item.name());
 			world.remove(x, y, z);
 			inventory.add(item);
 		}
 	}
 	
-	public void drop(Item item){
+	public void 
+	drop(Item item){
+		if (item == null)
+			return;
+
 		if (world.addAtEmptySpace(item, x, y, z)){
-			doAction("dropped - " + item.name());
+			doAction("drop - " + item.name());
 			inventory.remove(item);
 			unequip(item);
 		} else {
@@ -392,11 +402,13 @@ public class Creature {
 	}
 
 	public void rest() {
+		int healAmount = (int) (int) (Math.random() * (5 - 1)) + 1;
+		int foodAmount = (int) (int) (Math.random() * (25 - 5)) + 5;
 		doAction("rest..");
-		if (Math.random() * 100 > 80 ) {
-			notify("You feel a little better. [+3 HP/-25 Food]");
-			modifyHp(3, "rested");
-			modifyFood(-25);
+		if (Math.random() * 100 > 80) {
+			notify("You feel a little better. [+%d HP/-%d Food]", healAmount, foodAmount);
+			modifyHp(healAmount, "rested");
+			modifyFood(-foodAmount);
 		} else {
 			notify("It doesn't help. [+0 HP/-5 Food]");
 			modifyFood(-5);
@@ -483,10 +495,10 @@ public class Creature {
 			return;
 		
 		if (item == armor){
-			doAction("Removed - " + item.name());
+			doAction("remove - " + item.name());
 			armor = null;
 		} else if (item == weapon) {
-			doAction("Put away - " + item.name());
+			doAction("unwield - " + item.name());
 			weapon = null;
 		}
 	}
