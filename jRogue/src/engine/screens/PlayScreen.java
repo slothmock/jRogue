@@ -41,15 +41,18 @@ public class PlayScreen implements Screen {
 			for (int i = 0; i < 20; i++){
 				factory.newFungus(z);
 			}
-			for (int i = 0; i < 20; i++){
+			for (int i = 0; i < 40; i++){
 				factory.newBat(z);
 			}
-			for (int i = 0; i < z + 10; i++){
+			for (int i = 0; i < z * 10; i++){
 				factory.newZombie(z, player);
 			}
-			for (int i = 0; i < z + 8; i++){
+			for (int i = 0; i < z * 5; i++){
 				factory.newGoblin(z, player);
 			}
+			for (int i = 0; i < z * 1 ; i++){
+				factory.newTroll(z, player);
+			}			
 		}
 	}
 
@@ -203,10 +206,7 @@ public class PlayScreen implements Screen {
 		if (player.level() > level)
 			subscreen = new LevelUpScreen(player, player.level() - level);
 		
-		if (player.food() < 1)
-			return new DeathScreen(player);
-
-		if (player.hp() < 1)
+		if (player.food() < 1 || player.hp() < 1)
 			return new DeathScreen(player);
 
 		if (subscreen == null)

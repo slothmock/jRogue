@@ -142,22 +142,26 @@ public class World {
 		
 		while (!points.isEmpty()){
 			Point p = points.remove(0);
+			Creature c = this.creature(p.x, p.y, p.z);
 			checked.add(p);
+			if (c != null) 
+				c.notify("A %s lands on the ground.", item.name());
 			
 			if (!tile(p.x, p.y, p.z).isGround())
 				continue;
 				
 			if (items[p.x][p.y][p.z] == null){
 				items[p.x][p.y][p.z] = item;
-				Creature c = this.creature(p.x, p.y, p.z);
-				if (c != null)
-					c.notify("A %s lands on the ground.", item.name());
-				return true;
+				
+				
+
+			return true;
 			} else {
 				List<Point> neighbors = p.neighbors8();
 				neighbors.removeAll(checked);
 				points.addAll(neighbors);
 			}
+			
 		}
 		return false;
 	}

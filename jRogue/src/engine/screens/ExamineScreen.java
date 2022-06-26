@@ -18,8 +18,8 @@ public class ExamineScreen extends InventoryBasedScreen {
     }
 
     protected Screen use(Item item) {
-        String article = "aeiou".contains(item.name().subSequence(0, 1)) ? "an " : "a ";
-        player.notify("It's " + article + item.name() + ". " + item.details());
+        player.notify("You examine the " + item.name() + ".");
+        player.notify(item.name() + " - " + item.details());
         return null;
     }
 }

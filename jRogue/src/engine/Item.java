@@ -49,19 +49,19 @@ public class Item {
 		String details = "";
 		
 		if (attackValue != 0)
-			details += "  attack:" + attackValue;
+			details += " Damage: " + attackValue;
 
 		if (thrownAttackValue != 1)
-			details += "  thrown:" + thrownAttackValue;
+			details += " Thrown DMG: " + thrownAttackValue;
 		
 		if (rangedAttackValue > 0)
-			details += "  ranged:" + rangedAttackValue;
+			details += " Ranged DMG: " + rangedAttackValue;
 		
 		if (defenseValue != 0)
-			details += "  defense:" + defenseValue;
+			details += " Defense: " + defenseValue;
 
 		if (foodValue != 0)
-			details += "  food:" + foodValue;
+			details += " Food: " + foodValue;
 		
 		return details;
 	}

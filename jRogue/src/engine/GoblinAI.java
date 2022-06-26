@@ -2,10 +2,10 @@ package engine;
 
 import java.util.List;
 
-public class GoblinAI extends CreatureAi {
+public class GoblinAi extends CreatureAi {
     private Creature player;
 
-    public GoblinAI(Creature creature, Creature player) {
+    public GoblinAi(Creature creature, Creature player) {
         super(creature);
         this.player = player;
     }

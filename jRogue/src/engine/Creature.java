@@ -82,7 +82,7 @@ public class Creature {
 	private int xp;
 	public int xp() { return xp; }
 	
-	public int xpToNextLevel() { return (int)(Math.pow(level, 1.75) * 30); }
+	public int xpToNextLevel() { return (int)(Math.pow(level, 1.6) * 30); }
 
 	private int miningXPGain;
 	public int miningXPGain() { 
@@ -112,7 +112,7 @@ public class Creature {
 		this.visionRadius = 3;
 		this.miningLevel = 1;
 		this.name = name;
-		this.inventory = new Inventory(7);
+		this.inventory = new Inventory(8);
 		this.maxFood = 750;
 		this.food = maxFood;
 		this.level = 1;
@@ -180,10 +180,10 @@ public class Creature {
         params2[params2.length - 1] = amount;
     
         doAction(action, params2);
-		notify("[%s HP: %d]", other.name, other.hp);
-    
+		
         other.modifyHp(-amount, "Killed by - " + name);
-    
+		notify("[%s HP: %d]", other.name, Math.max(other.hp, 0));
+
         if (other.hp < 1)
             gainXp(other);
     }
@@ -267,6 +267,23 @@ public class Creature {
 	private void leaveCorpse(){
         Item corpse = new Item('%', color, name + " corpse");
         corpse.modifyFoodValue(maxHp);
+
+		switch (corpse.name())
+		{
+			case "Fungus":
+				corpse.modifyThrownAttackValue(1); break;
+			case "Bat":
+				corpse.modifyThrownAttackValue(1); break;
+			case "Zombie":
+				corpse.modifyThrownAttackValue(2); break;
+			case "Goblin":
+				corpse.modifyThrownAttackValue(2); break;
+			case "Troll":
+				corpse.modifyThrownAttackValue(4); break;
+			default:
+				break;
+		}
+		corpse.modifyThrownAttackValue(1);
         world.addAtEmptySpace(corpse, x, y, z);
         for (Item item : inventory.getItems()){
             if (item != null)

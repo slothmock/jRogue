@@ -13,7 +13,7 @@ public class StuffFactory {
 	}
 
 	public Creature newPlayer(List<String> messages, FieldOfView fov){
-		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 100, 50, 20);
+		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 100, 10, 5);
 		world.addAtEmptyLocation(player, 0);
 		new PlayerAi(player, messages, fov);
 		return player;
@@ -45,13 +45,21 @@ public class StuffFactory {
         goblin.equip(randomWeapon(depth));
         goblin.equip(randomArmor(depth));
         world.addAtEmptyLocation(goblin, depth);
-        new GoblinAI(goblin, player);
+        new GoblinAi(goblin, player);
         return goblin;
+    }
+
+	public Creature newTroll(int depth, Creature player){
+        Creature troll = new Creature(world, 'T', AsciiPanel.brightGreen, "Troll", 90, 30, 15);
+        world.addAtEmptyLocation(troll, depth);
+        new TrollAi(troll, player);
+        return troll;
     }
 	
 	public Item newRock(int depth){
 		Item rock = new Item(',', AsciiPanel.yellow, "Rock");
 		rock.modifyFoodValue(-20);
+		rock.modifyThrownAttackValue(2);
 		world.addAtEmptyLocation(rock, depth);
 		return rock;
 	}
@@ -128,7 +136,7 @@ public class StuffFactory {
 				if (creature.hp() == creature.maxHp())
 					return;
 									
-				creature.modifyHp(15, "Killed by - Health Potion");
+				creature.modifyHp(15, "Killed by - " + item.name());
 				creature.notify("You drink the %s", item.name());
 				creature.doAction("gain %d HP", 15);
 			}
@@ -147,7 +155,7 @@ public class StuffFactory {
 							
 			public void update(Creature creature){
 				super.update(creature);
-				creature.modifyHp(-1, "Killed by - Potion Of Poison");
+				creature.modifyHp(-1, "Killed by - " + item.name());
 			}
 		});		
 					
@@ -170,6 +178,24 @@ public class StuffFactory {
 				creature.gainDefenseValue(-5);
 				creature.notify("The potion wears off.");
 				creature.doAction("have your usual stats again.");
+			}
+		});
+					
+		world.addAtEmptyLocation(item, depth);
+		return item;
+	}
+
+	public Item newPotionOfExperience(int depth){
+		Item item = new Item('!', AsciiPanel.brightYellow, "Experience Potion");
+		item.setQuaffEffect(new Effect(1) {
+
+			public void start(Creature creature){
+				creature.modifyXp(100);
+				creature.notify("You drink the %s", item.name());
+				creature.doAction("gain 100 experience.");
+			}
+			public void end(Creature creature){
+				creature.notify("The potion wears off.");
 			}
 		});
 					
@@ -219,6 +245,7 @@ public class StuffFactory {
 		switch ((int)(Math.random() * 3)){
 		case 0: return newPotionOfWarrior(depth);
 		case 1: return newPotionOfPoison(depth);
+		case 2: return newPotionOfExperience(depth);
 		default: return newPotionOfHealth(depth);
 		}
 }
