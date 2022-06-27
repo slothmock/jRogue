@@ -109,7 +109,7 @@ public class Creature {
 		this.hp = maxHp;
 		this.attackValue = attack;
 		this.defenseValue = defense;
-		this.visionRadius = 3;
+		this.visionRadius = 4;
 		this.miningLevel = 1;
 		this.name = name;
 		this.inventory = new Inventory(8);
@@ -482,29 +482,44 @@ public class Creature {
 	}
 	
 	public void eatFood(Item item){
-		if (item.name() == "Rock") {
-			notify("You break your tooth eating the rock.");
-			modifyHp(-2, "Ate a rock.");
-			modifyFood(1);
+		if (item.name().contains("corpse")) {
+			modifyFood(item.foodValue());
+			notify("Ate - %s [+%s Food]", item.name(), item.foodValue());
+			notify("You can't believe you've had to consume a corpse.");
+			unequip(item);
 			inventory.remove(item);
 		} else if (item.foodValue() < 25) {
 			modifyFood(item.foodValue());
-			notify("Ate - %s", item.name());
+			notify("Ate - %s [+%d2 Food]", item.name(), item.foodValue());
 			notify("It's not very good.");
-			inventory.remove(item);
 			unequip(item);
-		} else if (item.name().contains("remains") && (!item.name().contains("fungus") )) {
-			modifyFood(item.foodValue());
-			notify("Ate - %s", item.name());
-			notify("It's disgusting!");
 			inventory.remove(item);
-			unequip(item);
-		} else {
-			modifyFood(item.foodValue());
-			notify("Ate - %s.", item.name());
-			inventory.remove(item);
-			unequip(item);
 		}
+
+		switch (item.name()) {
+		case "Rock":
+			notify("You break your tooth eating the rock.");
+			modifyHp(-3, "Ate a rock.");
+			modifyFood(-100);
+			notify("[%s]", item.foodValue());
+			unequip(item);
+			inventory.remove(item);
+			break;
+		case "Fungus":
+			modifyFood(item.foodValue());
+			notify("Ate - [+%d2 Food]", item.name(), item.foodValue());
+			notify("Ew! You don't like the taste.");
+			unequip(item);
+			inventory.remove(item);
+			
+		default:
+			modifyFood(item.foodValue());
+			notify("Ate - %s [+%s Food]", item.name(), item.foodValue());
+			unequip(item);
+			inventory.remove(item);
+			break;
+		}
+
 	}
 	
 	public void unequip(Item item){

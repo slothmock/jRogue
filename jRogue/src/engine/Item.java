@@ -51,7 +51,7 @@ public class Item {
 		if (attackValue != 0)
 			details += " Damage: " + attackValue;
 
-		if (thrownAttackValue != 1)
+		if (thrownAttackValue != 0)
 			details += " Thrown DMG: " + thrownAttackValue;
 		
 		if (rangedAttackValue > 0)

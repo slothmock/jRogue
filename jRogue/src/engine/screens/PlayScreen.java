@@ -58,16 +58,20 @@ public class PlayScreen implements Screen {
 
 	private void createItems(StuffFactory factory) {
 		for (int z = 0; z < world.depth(); z++){
-			for (int i = 0; i < world.width() * world.height() / 5; i++){
+			for (int i = 0; i < world.width() * world.height() / 8; i++){
 				factory.newRock(z);
 			}
-			for (int i = 0; i < 10; i++){
-				factory.randomFood(z);
+			for (int i = 0; i < 30; i++){
 				factory.randomArmor(z);
 				factory.randomWeapon(z);
 				factory.randomPotion(z);
 			}
+			for (int i = 0; i < 100; i++){
+				factory.randomFood(z);
+			}
 		}
+
+		factory.newDragon(world.depth() - 1, player);
 		factory.newVictoryItem(world.depth() - 1);
 	}
 	
