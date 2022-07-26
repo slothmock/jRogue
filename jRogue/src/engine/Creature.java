@@ -1,8 +1,10 @@
 package engine;
 
 import java.awt.Color;
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class Creature {
@@ -98,6 +100,7 @@ public class Creature {
 	public int numberOfTurns() { return numberOfTurns; }
 
 	List<String> allMessages = new ArrayList<String>();
+
 	public List<String> allMessages() { return allMessages; }
 
 	
@@ -184,8 +187,9 @@ public class Creature {
         other.modifyHp(-amount, "Killed by - " + name);
 		notify("[%s HP: %d]", other.name, Math.max(other.hp, 0));
 
-        if (other.hp < 1)
+        if (other.hp < 1) {
             gainXp(other);
+		}
     }
 
 	public void throwItem(Item item, int wx, int wy, int wz) {

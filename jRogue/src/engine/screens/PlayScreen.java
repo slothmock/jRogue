@@ -169,22 +169,37 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_HOME: return new StartScreen();
 			case KeyEvent.VK_END: System.exit(0);
 			
+			case KeyEvent.VK_H: 
 			case KeyEvent.VK_LEFT: player.moveBy(-1, 0, 0); break;
+
+
+			case KeyEvent.VK_L:
 			case KeyEvent.VK_RIGHT: player.moveBy( 1, 0, 0); break;
-			case KeyEvent.VK_UP: player.moveBy( 0,-1, 0); break;
+
+			case KeyEvent.VK_J:
+			case KeyEvent.VK_UP: player.moveBy( 0, -1, 0); break;
+
+			case KeyEvent.VK_K:
 			case KeyEvent.VK_DOWN: player.moveBy( 0, 1, 0); break;
+
+			// Diagonal movement
+			case KeyEvent.VK_U: player.moveBy(-1, -1, 0); break;
+			case KeyEvent.VK_I: player.moveBy( 1, -1, 0); break;
+			case KeyEvent.VK_N: player.moveBy( -1, 1, 0); break;
+			case KeyEvent.VK_M: player.moveBy( 1, 1, 0); break;
+
 			case KeyEvent.VK_R: player.rest(); break;
 
 			case KeyEvent.VK_D: subscreen = new DropScreen(player); break;
 			case KeyEvent.VK_E: subscreen = new EatScreen(player); break;
 			case KeyEvent.VK_W: subscreen = new EquipScreen(player); break;
-			case KeyEvent.VK_H: subscreen = new GameHelpMenu(player); break;
+
 			case KeyEvent.VK_V: subscreen = new MessageLogScreen(player, player.allMessages()); break;
 			case KeyEvent.VK_C: subscreen = new CharacterScreen(player); break;
 			case KeyEvent.VK_X: subscreen = new ExamineScreen(player); break;
 			case KeyEvent.VK_T: subscreen = new ThrowScreen(player, 
 											player.x, player.y); break;
-			case KeyEvent.VK_I: subscreen = new InventoryScreen(player); break;
+			case KeyEvent.VK_TAB: subscreen = new InventoryScreen(player); break;
 			case KeyEvent.VK_Q: subscreen = new QuaffScreen(player); break;
 			case KeyEvent.VK_F:
 				if (player.weapon() == null || player.weapon().rangedAttackValue() == 0)
