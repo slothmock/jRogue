@@ -38,7 +38,7 @@ public class PlayScreen implements Screen {
 		player = factory.newPlayer(messages, fov);
 		
 		for (int z = 0; z < world.depth(); z++){
-			for (int i = 0; i < 20; i++){
+			for (int i = 0; i < z * 5; i++){
 				factory.newFungus(z);
 			}
 			for (int i = 0; i < 40; i++){

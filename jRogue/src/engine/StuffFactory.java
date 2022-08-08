@@ -2,7 +2,6 @@ package engine;
 
 import java.util.List;
 
-
 import asciiPanel.AsciiPanel;
 
 public class StuffFactory {
@@ -220,6 +219,34 @@ public class StuffFactory {
 		return item;
 	}
 
+	public Item newBlinkPotion(int depth) {
+		Item item = new Item('!', AsciiPanel.brightBlue, "Blink Potion");
+		item.setQuaffEffect(new Effect(3) {
+
+			public void start(Creature creature){
+				creature.notify("You drink the %s", item.name());
+
+				creature.z += 1;
+				creature.blinkBlindness();
+
+				creature.notify("You blink. Stumble around for a while to find your way.");
+				
+			}
+			public void update(Creature creature){
+				super.update(creature);
+			}
+			public void end(Creature creature){
+				creature.notify("The potion wears off.");
+				creature.regainVision();
+			}
+		});
+
+
+					
+		world.addAtEmptyLocation(item, depth);
+		return item;
+	}
+
 	public Item newPotionOfExperience(int depth){
 		Item item = new Item('!', AsciiPanel.brightYellow, "Experience Potion");
 		item.setQuaffEffect(new Effect(2) {
@@ -282,11 +309,12 @@ public class StuffFactory {
 	}
 
 	public Item randomPotion(int depth){
-		switch ((int)(Math.random() * 4)){
+		switch ((int)(Math.random() * 5)){
 		case 0: return newPotionOfWarrior(depth);
 		case 1: return newPotionOfPoison(depth);
 		case 2: return newPotionOfExperience(depth);
 		case 3: return newPotionOfSight(depth);
+		case 4: return newBlinkPotion(depth);
 		default: return newPotionOfHealth(depth);
 		}
 }

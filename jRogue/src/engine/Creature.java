@@ -51,6 +51,9 @@ public class Creature {
 			+ (armor == null ? 0 : armor.defenseValue());
 	}
 
+	private int oldVisionRadius;
+	public int oldVisionRadius() { return oldVisionRadius; }
+
 	private int visionRadius;
 	public int visionRadius() { return visionRadius; }
 
@@ -398,8 +401,7 @@ public class Creature {
 		}
 	}
 	
-	public void 
-	drop(Item item){
+	public void drop(Item item){
 		if (item == null)
 			return;
 
@@ -588,6 +590,15 @@ public class Creature {
 	public void gainVision(int amount) {
 		visionRadius += amount;
 		doAction("are more aware");
+	}
+
+	public void blinkBlindness() {
+		oldVisionRadius = visionRadius();
+		visionRadius = 0;
+	}
+
+	public void regainVision() {
+		visionRadius = oldVisionRadius;
 	}
 
 	public void gainMiningLevel() {
