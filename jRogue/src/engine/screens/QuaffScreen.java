@@ -10,7 +10,7 @@ public class QuaffScreen extends InventoryBasedScreen {
         }
 
         protected String getVerb() {
-                return "quaff";
+                return "drink";
         }
 
         protected boolean isAcceptable(Item item) {

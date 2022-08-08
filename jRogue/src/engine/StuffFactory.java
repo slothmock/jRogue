@@ -221,11 +221,9 @@ public class StuffFactory {
 
 	public Item newBlinkPotion(int depth) {
 		Item item = new Item('!', AsciiPanel.brightBlue, "Blink Potion");
-		item.setQuaffEffect(new Effect(3) {
+		item.setQuaffEffect(new Effect(5) {
 
 			public void start(Creature creature){
-				creature.notify("You drink the %s", item.name());
-
 				creature.z += 1;
 				creature.blinkBlindness();
 
@@ -253,7 +251,6 @@ public class StuffFactory {
 
 			public void start(Creature creature){
 				creature.modifyXp(100);
-				creature.notify("You drink the %s", item.name());
 				creature.doAction("gain 100 experience.");
 			}
 		});
