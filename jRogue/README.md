@@ -6,15 +6,15 @@ Note that input is registered on the keyReleased event, this stops users from ho
 ## Controls
 
 - Arrow Keys + Classic Roguelike controls to move around",
-- [?] - Help Menu",
-- [/] - Look Around",
-- Shift + < or Shift + > to use stairs",
-- [G]rab from the ground",
-- [E]at an item",
-- [W]ield/Wear an item",
-- [R]est (+HP/-Food)",
-- Press [Home] to go back to the main menu",
-- [End] to quit the game        
+- [?] - Help Menu
+- [/] - Look Around
+- Shift + < or Shift + > to use stairs
+- [G]rab from the ground
+- [E]at an item
+- [W]ield/Wear an item
+- [R]est (+HP/-Food)
+- Press [Home] to go back to the main menu
+- [End] to quit the game
 - [C]haracter Information
 - [D]rop an item
 - [T]hrow an item
