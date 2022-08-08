@@ -5,7 +5,7 @@ Note that input is registered on the keyReleased event, this stops users from ho
 
 ## Controls
 
-- Arrow Keys + Classic Roguelike controls to move around",
+- Arrow Keys + Classic Roguelike controls to move around
 - ? - Help Menu
 - / - Look Around
 - Shift + < or Shift + > to use stairs
