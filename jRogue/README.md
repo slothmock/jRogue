@@ -19,7 +19,7 @@ Note that input is registered on the keyReleased event, this stops users from ho
 - [D]rop an item
 - [T]hrow an item
 - [Q]uaff an item (Drink)
-- [I]nventory
+- [\\] View Inventory
 - [V]iew message log
 - [X]amine an item from your inventory
 
