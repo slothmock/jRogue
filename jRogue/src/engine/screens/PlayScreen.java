@@ -199,7 +199,7 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_X: subscreen = new ExamineScreen(player); break;
 			case KeyEvent.VK_T: subscreen = new ThrowScreen(player, 
 											player.x, player.y); break;
-			case KeyEvent.VK_TAB: subscreen = new InventoryScreen(player); break;
+			case KeyEvent.VK_BACK_SLASH: subscreen = new InventoryScreen(player); break;
 			case KeyEvent.VK_Q: subscreen = new QuaffScreen(player); break;
 			case KeyEvent.VK_F:
 				if (player.weapon() == null || player.weapon().rangedAttackValue() == 0)

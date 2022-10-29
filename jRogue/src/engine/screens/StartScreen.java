@@ -20,7 +20,7 @@ public class StartScreen implements Screen {
 		terminal.writeCenter("-- press [H] to see help screen --", 16);
 		terminal.writeCenter("-- press [Esc] to quit --", 18);
 
-		playTitle();
+		playTitleAudio();
 	}
 
 	@Override
@@ -30,6 +30,7 @@ public class StartScreen implements Screen {
 				titleAudio.close();
 				return new PlayScreen();
 			case KeyEvent.VK_H:
+				titleAudio.close();
 				return new HelpScreen();
 			case KeyEvent.VK_ESCAPE:
 				System.exit(0);
@@ -38,7 +39,7 @@ public class StartScreen implements Screen {
 		}
 	}
 
-	public void playTitle() {
+	public void playTitleAudio() {
 		try {
 			titleAudio = new AudioPlayer("titleAudio.wav");
 		} catch (UnsupportedAudioFileException | IOException 

@@ -5,9 +5,13 @@ public class Inventory {
 	private Item[] items;
 	public Item[] getItems() { return items; }
 	public Item get(int i) { return items[i]; }
+
+	private int capacity;
+	public int capacity() {return capacity;}
 	
 	public Inventory(int max){
 		items = new Item[max];
+		capacity = items.length;
 	}
 	
 	public void add(Item item){

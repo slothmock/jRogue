@@ -27,6 +27,9 @@ public class LevelUpController {
 		new LevelUpOption("Increase Mining Ability"){
 			public void invoke(Creature creature) { creature.gainMiningLevel(); }
 		},
+		new LevelUpOption("Increase Inventory Size [AT A COST]"){
+			public void invoke(Creature creature) { creature.gainInventorySpace(); }
+		},
 	};
 	
 	public void autoLevelUp(Creature creature){

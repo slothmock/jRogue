@@ -66,6 +66,8 @@ public class Creature {
 	private Inventory inventory;
 	public Inventory inventory() { return inventory; }
 
+	public int inventorySize() { return inventory().capacity(); }
+
 	private int maxFood;
 	public int maxFood() { return maxFood; }
 	
@@ -107,7 +109,7 @@ public class Creature {
 	public List<String> allMessages() { return allMessages; }
 
 	
-	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense){
+	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense, int inventorySize){
 		this.world = world;
 		this.glyph = glyph;
 		this.color = color;
@@ -118,7 +120,7 @@ public class Creature {
 		this.visionRadius = 4;
 		this.miningLevel = 1;
 		this.name = name;
-		this.inventory = new Inventory(8);
+		this.inventory = new Inventory(inventorySize);
 		this.maxFood = 750;
 		this.food = maxFood;
 		this.level = 1;
@@ -604,6 +606,11 @@ public class Creature {
 	public void gainMiningLevel() {
 		miningLevel += 1;
 		doAction("dig better");
+	}
+
+	public void gainInventorySpace() {
+		int newCapacity = inventorySize() + 1;
+		inventory = new Inventory(newCapacity);
 	}
 
 	public void gainHunger() {

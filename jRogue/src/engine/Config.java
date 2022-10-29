@@ -25,7 +25,7 @@ public class Config {
         "[D]rop an item",
         "[T]hrow an item",
         "[Q]uaff an item (Drink)",
-        "[I]nventory",
+        "[\\] View Inventory",
         "[V]iew message log",
         "[X]amine an item from your inventory",
         "",

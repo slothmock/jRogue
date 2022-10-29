@@ -12,35 +12,35 @@ public class StuffFactory {
 	}
 
 	public Creature newPlayer(List<String> messages, FieldOfView fov){
-		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 100, 15, 7);
+		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 100, 15, 7, 8);
 		world.addAtEmptyLocation(player, 0);
 		new PlayerAi(player, messages, fov);
 		return player;
 	}
 	
 	public Creature newFungus(int depth){
-		Creature fungus = new Creature(world, 'f', AsciiPanel.green, "Fungus", 10, 0, 1);
+		Creature fungus = new Creature(world, 'f', AsciiPanel.green, "Fungus", 10, 0, 1, 0);
 		world.addAtEmptyLocation(fungus, depth);
 		new FungusAi(fungus, this);
 		return fungus;
 	}
 	
 	public Creature newBat(int depth){
-		Creature bat = new Creature(world, 'b', AsciiPanel.brightYellow, "Bat", 15, 3, 5);
+		Creature bat = new Creature(world, 'b', AsciiPanel.brightYellow, "Bat", 15, 3, 5, 0);
 		world.addAtEmptyLocation(bat, depth);
 		new BatAi(bat);
 		return bat;
 	}
 	
 	public Creature newZombie(int depth, Creature player){
-		Creature zombie = new Creature(world, 'z', AsciiPanel.white, "Zombie", 30, 10, 5);
+		Creature zombie = new Creature(world, 'z', AsciiPanel.white, "Zombie", 30, 10, 5, 0);
 		world.addAtEmptyLocation(zombie, depth);
 		new ZombieAi(zombie, player);
 		return zombie;
 	}
 
 	public Creature newGoblin(int depth, Creature player){
-        Creature goblin = new Creature(world, 'g', AsciiPanel.brightGreen, "Goblin", 65, 12, 8);
+        Creature goblin = new Creature(world, 'g', AsciiPanel.brightGreen, "Goblin", 65, 12, 8, 2);
         goblin.equip(randomWeapon(depth));
         goblin.equip(randomArmor(depth));
         world.addAtEmptyLocation(goblin, depth);
@@ -49,14 +49,14 @@ public class StuffFactory {
     }
 
 	public Creature newTroll(int depth, Creature player){
-        Creature troll = new Creature(world, 'T', AsciiPanel.brightGreen, "Troll", 90, 30, 15);
+        Creature troll = new Creature(world, 'T', AsciiPanel.brightGreen, "Troll", 90, 30, 15, 0);
         world.addAtEmptyLocation(troll, depth);
         new TrollAi(troll, player);
         return troll;
     }
 
 	public Creature newDragon(int depth, Creature player){
-		Creature dragon = new Creature(world, 'D', AsciiPanel.brightRed, "Dragon", 200, 50, 20);
+		Creature dragon = new Creature(world, 'D', AsciiPanel.brightRed, "Dragon", 200, 50, 20, 0);
 		world.addAtEmptyLocation(dragon, depth);
 		new DragonAi(dragon, player);
 		return dragon;
