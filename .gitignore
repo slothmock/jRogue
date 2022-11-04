@@ -1,5 +1,5 @@
-
-config.xml
-SlothEngine.jar
-jRogue/BUILDS/jRogue.exe
 jRogue/.vs/
+jRogue/jRogue.jar
+jRogue/bin/
+jRogue/JROGUE/
+jRogue/.classpath
