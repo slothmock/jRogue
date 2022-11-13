@@ -421,7 +421,7 @@ public class Creature {
 		if (item == null){
 			doAction("grab at the ground");
 		} else if (inventory.isFull()) {
-			notify("Can't pick up - %s - Inventory is full", item.name());
+			notify("Can't pick up - %s - Your backpack is full", item.name());
 		} else {
 			doAction("pick up - %s", item.name());
 			world.remove(x, y, z);

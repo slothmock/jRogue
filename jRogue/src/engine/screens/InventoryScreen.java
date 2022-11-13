@@ -23,11 +23,11 @@ public class InventoryScreen implements Screen {
 		int x = 1;		
 
 		terminal.clear(' ', x, y, 45, 6);
-		String inventoryCap = String.format("- Inventory - : %d/%d - [Esc] to close menu", player.inventory().currentCapacity(), player.inventory().getItems().length);
+		String inventoryCap = String.format("- Backpack - : %d/%d - [Esc] to close menu", player.inventory().currentCapacity(), player.inventory().getItems().length);
         terminal.write(inventoryCap, x, y);
 
         if (lines.size() < 1) {
-            terminal.write("You have nothing in your inventory.", x, y + 2);
+            terminal.write("You have nothing in your backpack.", x, y + 2);
         } else {
             for (String line : lines) {
                 terminal.write(line, x, y++ + 2);

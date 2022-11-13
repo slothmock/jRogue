@@ -251,11 +251,11 @@ public class StuffFactory {
 
 	public Item newPotionOfExperience(int depth){
 		Item item = new Item('!', AsciiPanel.brightYellow, "Experience Potion");
-		item.setQuaffEffect(new Effect(2) {
+		item.setQuaffEffect(new Effect(5) {
 
 			public void start(Creature creature){
-				creature.modifyXp(100);
-				creature.doAction("gain 100 experience.");
+				creature.modifyXp(10);
+				creature.doAction("gain 50 experience.");
 			}
 		});
 					
