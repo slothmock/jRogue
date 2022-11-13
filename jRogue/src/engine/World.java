@@ -145,7 +145,7 @@ public class World {
 			Creature c = this.creature(p.x, p.y, p.z);
 			checked.add(p);
 			if (c != null) 
-				c.notify("A %s lands on the ground.", item.name());
+				c.notify("A %s lands at your feet.", item.name());
 			
 			if (!tile(p.x, p.y, p.z).isGround())
 				continue;

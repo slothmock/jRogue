@@ -12,7 +12,7 @@ public class StuffFactory {
 	}
 
 	public Creature newPlayer(List<String> messages, FieldOfView fov){
-		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "You", 100, 15, 7, 8);
+		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "Zak (You)", 100, 15, 7, 8);
 		world.addAtEmptyLocation(player, 0);
 		new PlayerAi(player, messages, fov);
 		return player;
@@ -103,6 +103,7 @@ public class StuffFactory {
 	public Item newBaguette(int depth){
 		Item item = new Item(')', AsciiPanel.yellow, "Baguette");
 		item.modifyAttackValue(3);
+		item.modifydurabilityValue(2);
 		item.modifyThrownAttackValue(2);
 		item.modifyFoodValue(50);
 		world.addAtEmptyLocation(item, depth);
@@ -112,6 +113,7 @@ public class StuffFactory {
 	public Item newDagger(int depth){
 		Item item = new Item(')', AsciiPanel.white, "Dagger");
 		item.modifyAttackValue(5);
+		item.modifydurabilityValue(30);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
@@ -119,6 +121,7 @@ public class StuffFactory {
 	public Item newSword(int depth){
 		Item item = new Item(')', AsciiPanel.brightWhite, "Sword");
 		item.modifyAttackValue(10);
+		item.modifydurabilityValue(40);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
@@ -127,14 +130,15 @@ public class StuffFactory {
 		Item item = new Item(')', AsciiPanel.yellow, "Staff");
 		item.modifyAttackValue(5);
 		item.modifyDefenseValue(3);
+		item.modifydurabilityValue(20);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
 
 	public Item newBow(int depth){
         Item item = new Item(')', AsciiPanel.yellow, "Bow");
-        item.modifyAttackValue(1);
         item.modifyRangedAttackValue(5);
+		item.modifydurabilityValue(15);
         world.addAtEmptyLocation(item, depth);
         return item;
     }
@@ -146,7 +150,7 @@ public class StuffFactory {
 				if (creature.hp() == creature.maxHp())
 					return;
 									
-				creature.modifyHp(20 + creature.level() * 5, "Killed by - " + item.name());
+				creature.modifyHP(20 + creature.level() * 5, "Killed by - " + item.name());
 				creature.notify("You drink the %s", item.name());
 				creature.doAction("gain %d HP", 15);
 			}
@@ -165,7 +169,7 @@ public class StuffFactory {
 							
 			public void update(Creature creature){
 				super.update(creature);
-				creature.modifyHp(-3, "Killed by - " + item.quaffEffect());
+				creature.modifyHP(-3, "Killed by - " + item.quaffEffect());
 			}
 
 			public void end(Creature creature){
@@ -262,6 +266,7 @@ public class StuffFactory {
 	public Item newTunic(int depth){
 		Item item = new Item('[', AsciiPanel.green, "Tunic");
 		item.modifyDefenseValue(2);
+		item.modifydurabilityValue(15);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
@@ -269,6 +274,7 @@ public class StuffFactory {
 	public Item newLeatherArmor(int depth){
 		Item item = new Item('[', AsciiPanel.yellow, "Leather Armor");
 		item.modifyDefenseValue(3);
+		item.modifydurabilityValue(30);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
@@ -276,6 +282,7 @@ public class StuffFactory {
 	public Item newChainmail(int depth){
 		Item item = new Item('[', AsciiPanel.white, "Chainmail");
 		item.modifyDefenseValue(6);
+		item.modifydurabilityValue(50);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}
@@ -283,6 +290,7 @@ public class StuffFactory {
 	public Item newPlatemail(int depth){
 		Item item = new Item('[', AsciiPanel.brightWhite, "Platemail");
 		item.modifyDefenseValue(10);
+		item.modifydurabilityValue(60);
 		world.addAtEmptyLocation(item, depth);
 		return item;
 	}

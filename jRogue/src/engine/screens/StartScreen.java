@@ -11,7 +11,7 @@ import engine.AudioPlayer;
 
 public class StartScreen implements Screen {
 
-	private AudioPlayer titleAudio;
+	private AudioPlayer menuAudio;
 
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
@@ -20,17 +20,17 @@ public class StartScreen implements Screen {
 		terminal.writeCenter("-- press [H] to see help screen --", 16);
 		terminal.writeCenter("-- press [Esc] to quit --", 18);
 
-		playTitleAudio();
+		playMenuAudio();
 	}
 
 	@Override
 	public Screen respondToUserInput(KeyEvent key) {
 		switch (key.getKeyCode()) {
 			case KeyEvent.VK_ENTER:
-				titleAudio.close();
+				menuAudio.close();
 				return new PlayScreen();
 			case KeyEvent.VK_H:
-				titleAudio.close();
+				menuAudio.close();
 				return new HelpScreen();
 			case KeyEvent.VK_ESCAPE:
 				System.exit(0);
@@ -39,19 +39,19 @@ public class StartScreen implements Screen {
 		}
 	}
 
-	public void playTitleAudio() {
+	public void playMenuAudio() {
 		try {
-			titleAudio = new AudioPlayer("titleAudio.wav");
+			menuAudio = new AudioPlayer("menuAudio.wav");
 		} catch (UnsupportedAudioFileException | IOException 
 				| LineUnavailableException e) {
 					e.printStackTrace();
 		}
 
-		if (titleAudio.isPlaying()) {
-			titleAudio.stop();
-			titleAudio.close();
+		if (menuAudio.isPlaying()) {
+			menuAudio.stop();
+			menuAudio.close();
 		} else {
-			titleAudio.loop();
+			menuAudio.loop();
 		}
 	}
 }

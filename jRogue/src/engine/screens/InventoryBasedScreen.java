@@ -53,7 +53,7 @@ public abstract class InventoryBasedScreen implements Screen {
 			
 			String line = letters.charAt(i) + ": " + item.glyph() + " - " + item.name();
 			
-			if(item == player.weapon() || item == player.armor())
+			if(item == player.weapon() || item == player.armor() || item == player.rangedWeapon())
 				line += " (equipped)";
 			
 			lines.add(line);

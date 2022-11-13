@@ -36,7 +36,6 @@ public class PlayScreen implements Screen {
 
 	private void createCreatures(StuffFactory factory){
 		player = factory.newPlayer(messages, fov);
-		
 		for (int z = 0; z < world.depth(); z++){
 			for (int i = 0; i < z * 5; i++){
 				factory.newFungus(z);
@@ -61,12 +60,12 @@ public class PlayScreen implements Screen {
 			for (int i = 0; i < world.width() * world.height() / 8; i++){
 				factory.newRock(z);
 			}
-			for (int i = 0; i < 30; i++){
+			for (int i = 0; i < 20; i++){
 				factory.randomArmor(z);
 				factory.randomWeapon(z);
 				factory.randomPotion(z);
 			}
-			for (int i = 0; i < 100; i++){
+			for (int i = 0; i < 60; i++){
 				factory.randomFood(z);
 			}
 		}
@@ -81,11 +80,10 @@ public class PlayScreen implements Screen {
 					.build();
 		messages.add(Config.INTRO_MSG);
 		messages.add(Config.HELP_MSG);
+
 	}
 
 
-	
-	
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
 		int separatorY = 0; 
@@ -202,7 +200,7 @@ public class PlayScreen implements Screen {
 			case KeyEvent.VK_BACK_SLASH: subscreen = new InventoryScreen(player); break;
 			case KeyEvent.VK_Q: subscreen = new QuaffScreen(player); break;
 			case KeyEvent.VK_F:
-				if (player.weapon() == null || player.weapon().rangedAttackValue() == 0)
+				if (player.rangedWeapon() == null || player.rangedWeapon().rangedAttackValue() == 0)
 					player.notify("You don't have a ranged weapon equipped.");
 				else
 					subscreen = new FireWeaponScreen(player, player.x, player.y); break;

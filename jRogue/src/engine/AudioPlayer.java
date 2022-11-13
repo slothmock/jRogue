@@ -15,7 +15,7 @@ public class AudioPlayer {
     Clip clip;
 
     public AudioPlayer(String fileName) throws UnsupportedAudioFileException, IOException, LineUnavailableException {
-        File file = new File("./src/sounds/" + fileName).getAbsoluteFile();
+        File file = new File("build/sounds/" + fileName).getAbsoluteFile();
         AudioInputStream ais = AudioSystem.getAudioInputStream(file);
         clip = AudioSystem.getClip();
         clip.open(ais);

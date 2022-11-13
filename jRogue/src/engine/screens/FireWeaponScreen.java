@@ -7,7 +7,7 @@ import engine.Point;
 public class FireWeaponScreen extends TargetBasedScreen {
 
     public FireWeaponScreen(Creature player, int sx, int sy) {
-        super(player, "Fire " + player.weapon().name() + " at?", sx, sy);
+        super(player, "Fire " + player.rangedWeapon().name() + " at?", sx, sy);
     }
 
     public boolean isAcceptable(int x, int y) {
@@ -24,9 +24,12 @@ public class FireWeaponScreen extends TargetBasedScreen {
     public void selectWorldCoordinate(int x, int y, int screenX, int screenY){
         Creature other = player.creature(x, y, player.z);
     
-        if (other == null)
+        if (other == null) {
             player.notify("There's no one there to fire at.");
-        else
+            player.rangedWeapon().modifydurabilityValue(-1);
+        } else {
             player.rangedWeaponAttack(other);
+        }
+        player.notify("Arrows Remaining: " + player.rangedWeapon().durabilityValue());
     }
 }

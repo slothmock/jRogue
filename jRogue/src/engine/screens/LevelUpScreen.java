@@ -34,7 +34,7 @@ public class LevelUpScreen implements Screen {
 			terminal.write(String.format("[%d] %s", i + 1, options.get(i)), x, y++);
 		};
 		y = 27;
-		for (int i2 = 4; i2 < options.size(); i2++){
+		for (int i2 = 5; i2 < options.size(); i2++){
 			terminal.write(String.format("[%d] %s", i2 + 1, options.get(i2)), x2, y++);
 		}
 	}

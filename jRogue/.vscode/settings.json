@@ -5,5 +5,5 @@
     "java.project.sourcePaths": [
         "src"
     ],
-    "java.project.outputPath": "JROGUE\\dist"
+    "java.project.outputPath": "build"
 }

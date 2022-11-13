@@ -25,6 +25,10 @@ public class Item {
 	public int defenseValue() { return defenseValue; }
 	public void modifyDefenseValue(int amount) { defenseValue += amount; }
 
+	private int durabilityValue;
+	public int durabilityValue() { return durabilityValue; }
+	public void modifydurabilityValue(int amount) { durabilityValue += amount;}
+
 	private int thrownAttackValue;
     public int thrownAttackValue() { return thrownAttackValue; }
     public void modifyThrownAttackValue(int amount) { thrownAttackValue += amount; }
@@ -48,19 +52,22 @@ public class Item {
 	public String details() {
 		String details = "";
 		
-		if (attackValue != 0)
+		if (attackValue > 0)
 			details += " Damage: " + attackValue;
 
-		if (thrownAttackValue != 0)
+		if (thrownAttackValue > 0)
 			details += " Thrown DMG: " + thrownAttackValue;
 		
 		if (rangedAttackValue > 0)
 			details += " Ranged DMG: " + rangedAttackValue;
+
+		if (durabilityValue > 0)
+			details += " Durability: " + durabilityValue;
 		
-		if (defenseValue != 0)
+		if (defenseValue > 0)
 			details += " Defense: " + defenseValue;
 
-		if (foodValue != 0)
+		if (foodValue > 0)
 			details += " Food: " + foodValue;
 		
 		return details;

@@ -1,5 +1,7 @@
 jRogue/.vs/
+jRogue/.vscode/
+jRogue/.VSCodeCounter/
 jRogue/jRogue.jar
-jRogue/bin/
-jRogue/JROGUE/
-jRogue/.classpath
+jRogue/.classpath/
+jRogue/build/
+jRogue/dist/

@@ -14,7 +14,7 @@ public class EquipScreen extends InventoryBasedScreen {
 	}
 
 	protected boolean isAcceptable(Item item) {
-		return item.attackValue() > 0 || item.defenseValue() > 0;
+		return item.attackValue() != 0 || item.defenseValue() != 0 || item.rangedAttackValue() != 0;
 	}
 
 	protected Screen use(Item item) {
