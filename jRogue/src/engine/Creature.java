@@ -524,7 +524,7 @@ public class Creature {
 			inventory.remove(item);
 		} else if (item.foodValue() < 25) {
 			modifyFood(item.foodValue());
-			notify("Ate - %s [+%d2 Food]", item.name(), item.foodValue());
+			notify("Ate - %s [%d Food]", item.name(), item.foodValue());
 			notify("It's not very good.");
 			unequip(item);
 			inventory.remove(item);
@@ -535,20 +535,24 @@ public class Creature {
 			notify("You break your tooth eating the rock.");
 			modifyHP(-3, "Ate a rock.");
 			modifyFood(-100);
-			notify("[%s]", item.foodValue());
 			unequip(item);
 			inventory.remove(item);
 			break;
 		case "Fungus":
 			modifyFood(item.foodValue());
-			notify("Ate - [+%d2 Food]", item.name(), item.foodValue());
+			notify("Ate - [%d Food]", item.name(), item.foodValue());
 			notify("Ew! You don't like the taste.");
 			unequip(item);
 			inventory.remove(item);
 			
 		default:
 			modifyFood(item.foodValue());
-			notify("Ate - %s [+%s Food]", item.name(), item.foodValue());
+			if(item.foodValue() > 0){
+				notify("Ate - %s [+%s Food]", item.name(), item.foodValue());
+			}
+			else{
+				notify("Ate - %s [%s Food]", item.name(), item.foodValue());
+			}
 			unequip(item);
 			inventory.remove(item);
 			break;

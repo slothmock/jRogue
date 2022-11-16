@@ -55,6 +55,14 @@ public abstract class InventoryBasedScreen implements Screen {
 			
 			if(item == player.weapon() || item == player.armor() || item == player.rangedWeapon())
 				line += " (equipped)";
+
+			if(getVerb() == "eat"){
+				line += " (Food: "+item.foodValue()+")";
+			}
+
+			if(getVerb() == "equip"){
+				line += " (Attack: "+item.attackValue()+", Ranged: "+item.rangedAttackValue()+", Defense: "+item.defenseValue()+")";
+			}
 			
 			lines.add(line);
 		}
