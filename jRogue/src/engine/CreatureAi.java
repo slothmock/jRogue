@@ -21,6 +21,13 @@ public class CreatureAi {
 	}
 	
 	public void onUpdate(){
+		if (this.creature.name() != "Zak (You)"){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException exception) {
+				exception.printStackTrace();
+			}
+		}
 	}
 	
 	public void onNotify(String message){

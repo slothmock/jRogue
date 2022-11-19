@@ -31,12 +31,14 @@ public class ApplicationMain extends JFrame implements KeyListener {
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {}
+	public void keyPressed(KeyEvent e) {
+		screen = screen.respondToUserInput(e);
+		repaint();
+	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		screen = screen.respondToUserInput(e);
-		repaint();
+		
 	}
 
 	@Override
