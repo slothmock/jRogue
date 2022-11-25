@@ -94,8 +94,8 @@ public class PlayScreen implements Screen {
 
 		
 		
-		String stats = String.format("%s/%s HP - %s - Dungeon: %s - Turn: %s",
-										player.hp(), player.maxHp(), hunger(), player.z + 1, player.numberOfTurns() + 1);
+		String stats = String.format("%s/%s HP - %s - Dungeon: %s - Turn: %s - %s/%s EXP",
+										player.hp(), player.maxHp(), hunger(), player.z + 1, player.numberOfTurns() + 1, player.xp(), player.xpToNextLevel());
 		terminal.write(stats, mapWidth + 2, 1);
 		terminal.write("- Message Log - ", mapWidth + 2, 3);
 		for (int i = 0; i < mapHeight + 1; i++) {
@@ -114,20 +114,7 @@ public class PlayScreen implements Screen {
 	}
 	
 	private String hunger(){
-		if (player.food() <= player.maxFood() * 0.3)
-			return "Starving";
-
-		else if (player.food() > player.maxFood() * 0.8)
-			return "Full";
-
-		else if (player.food() > player.maxFood() * 0.6)
-			return "Peckish";
-
-		else if (player.food() > player.maxFood() * 0.3)
-			return "Hungry";
-
-		else
-			return "";
+		return "Food: "+player.food();
 	}
 
 	private void displayMessages(AsciiPanel terminal, List<String> messages) {
@@ -223,8 +210,10 @@ public class PlayScreen implements Screen {
 		if (player.level() > level)
 			subscreen = new LevelUpScreen(player, player.level() - level);
 		
-		if (player.food() < 1 || player.hp() < 1)
-			return new DeathScreen(player);
+		
+
+		if (player.food() < 1)
+			player.modifyHP(-30, "Starved");
 
 		if (subscreen == null)
 			world.update();

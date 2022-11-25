@@ -27,6 +27,8 @@ public class CreatureAi {
 			} catch (InterruptedException exception) {
 				exception.printStackTrace();
 			}
+		} else {
+			return;
 		}
 	}
 	
