@@ -24,7 +24,7 @@ public class StartScreen implements Screen {
 		terminal.writeCenter("-- press [Esc] to quit --", 20);
 
 		if (menuAudio == null){  //prevents music from playing every time title screen text is updated
-			playMenuAudio();
+			//playMenuAudio();
 		}
 	}
 
@@ -32,10 +32,10 @@ public class StartScreen implements Screen {
 	public Screen respondToUserInput(KeyEvent key) {
 		switch (key.getKeyCode()) {
 			case KeyEvent.VK_ENTER:
-				menuAudio.close();
+				//menuAudio.close();
 				return new PlayScreen();
 			case KeyEvent.VK_H:
-				menuAudio.close();
+				//menuAudio.close();
 				return new HelpScreen();
 			case KeyEvent.VK_ESCAPE:
 				System.exit(0);
