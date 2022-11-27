@@ -8,6 +8,7 @@ import java.util.List;
 import asciiPanel.AsciiPanel;
 import engine.Config;
 import engine.Creature;
+import engine.Difficulty;
 import engine.FieldOfView;
 import engine.Item;
 import engine.StuffFactory;
@@ -35,7 +36,12 @@ public class PlayScreen implements Screen {
 	}
 
 	private void createCreatures(StuffFactory factory){
-		player = factory.newPlayer(messages, fov);
+		if (Difficulty.getDifficulty() == Difficulty.EASY_DIFFICULTY) {
+			player = factory.newEasyPlayer(messages, fov);
+		} else {
+			player = factory.newNormalPlayer(messages, fov);
+		}
+
 		for (int z = 0; z < world.depth(); z++){
 			for (int i = 0; i < z * 5; i++){
 				factory.newFungus(z);

@@ -11,24 +11,21 @@ public class StuffFactory {
 		this.world = world;
 	}
 
-    public Creature newPlayer(List<String> messages, FieldOfView fov){
+    public Creature newEasyPlayer(List<String> messages, FieldOfView fov){
         Creature player;
+        player = new Creature(world, '@', AsciiPanel.brightWhite, "Zak (You)", 150, 20, 11, 10, 750);
+        player.inventory().add(newBow(0));
+		world.addAtEmptyLocation(player, 0);
+    	new PlayerAi(player, messages, fov);
+    	return player;
+	}
 
-        if (Difficulty.DIFFICULTY == "Easy"){
-            player = new Creature(world, '@', AsciiPanel.brightWhite, "Zak (You)", 150, 20, 11, 10, 3);
-            player.inventory().add(newBow(0));
-			world.addAtEmptyLocation(player, 0);
-            new PlayerAi(player, messages, fov);
-            return player;
-        }else if (Difficulty.DIFFICULTY == "Normal"){
-            player = new Creature(world, '@', AsciiPanel.brightWhite, "Zak (You)", 100, 15, 7, 8, 750);
-            world.addAtEmptyLocation(player, 0);
-            new PlayerAi(player, messages, fov);
-            return player;
-        }
-
-    
-        return new Creature(world, '$', AsciiPanel.brightWhite, "Error", 1, 1, 1, 8, 1000);
+	public Creature newNormalPlayer(List<String> messages, FieldOfView fov){
+		Creature player;
+		player = new Creature(world, '@', AsciiPanel.white, "Zak (You)", 100, 15, 7, 8, 600);
+		world.addAtEmptyLocation(player, 0);
+		new PlayerAi(player, messages, fov);
+		return player;
 	}
 	
 	public Creature newFungus(int depth){
