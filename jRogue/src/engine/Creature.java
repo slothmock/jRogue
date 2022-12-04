@@ -112,7 +112,7 @@ public class Creature {
 	public List<String> allMessages() { return allMessages; }
 
 	
-	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense, int inventorySize){
+	public Creature(World world, char glyph, Color color, String name, int maxHp, int attack, int defense, int inventorySize, int food){
 		this.world = world;
 		this.glyph = glyph;
 		this.color = color;
@@ -124,7 +124,7 @@ public class Creature {
 		this.miningLevel = 1;
 		this.name = name;
 		this.inventory = new Inventory(inventorySize);
-		this.maxFood = 750;
+		this.maxFood = food;
 		this.food = maxFood;
 		this.level = 1;
 		this.regenHpAmount = 3;
@@ -206,7 +206,7 @@ public class Creature {
     
         int amount = Math.max(0, attack - other.defenseValue());
     
-        amount = (int)(Math.random() * amount) + 1;
+        amount = (int)(amount * this.level) + 1;
     
         Object[] params2 = new Object[params.length+1];
         for (int i = 0; i < params.length; i++){
@@ -506,8 +506,6 @@ public class Creature {
 			food = maxFood;
 			notify("You can't believe your stomach can hold that much!");
 			modifyHP(-1, "Killed by over-eating.");
-		} else if (food < 1 && isPlayer()) {
-			modifyHP(-1000, "Starved to death.");
 		}
 	}
 	

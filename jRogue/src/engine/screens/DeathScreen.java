@@ -17,7 +17,7 @@ public class DeathScreen implements Screen {
 		terminal.writeCenter("GAME OVER", 3);
 		terminal.writeCenter(player.causeOfDeath(), 6);
 		terminal.writeCenter("-- Press [Enter] to restart --", 10);
-		terminal.writeCenter("-- Press [Escape] to quitt --", 11);
+		terminal.writeCenter("--  Press [Escape] to quit  --", 11);
 	}
 
 	@Override

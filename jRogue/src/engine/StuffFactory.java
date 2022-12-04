@@ -11,36 +11,46 @@ public class StuffFactory {
 		this.world = world;
 	}
 
-	public Creature newPlayer(List<String> messages, FieldOfView fov){
-		Creature player = new Creature(world, '@', AsciiPanel.brightWhite, "Zak (You)", 100, 15, 7, 8);
+    public Creature newEasyPlayer(List<String> messages, FieldOfView fov){
+        Creature player;
+        player = new Creature(world, '@', AsciiPanel.brightWhite, "Zak (You)", 150, 20, 11, 10, 750);
+        player.inventory().add(newBow(0));
+		world.addAtEmptyLocation(player, 0);
+    	new PlayerAi(player, messages, fov);
+    	return player;
+	}
+
+	public Creature newNormalPlayer(List<String> messages, FieldOfView fov){
+		Creature player;
+		player = new Creature(world, '@', AsciiPanel.white, "Zak (You)", 100, 15, 7, 8, 600);
 		world.addAtEmptyLocation(player, 0);
 		new PlayerAi(player, messages, fov);
 		return player;
 	}
 	
 	public Creature newFungus(int depth){
-		Creature fungus = new Creature(world, 'f', AsciiPanel.green, "Fungus", 10, 0, 1, 0);
+		Creature fungus = new Creature(world, 'f', AsciiPanel.green, "Fungus", 10, 0, 1, 0, 1000);
 		world.addAtEmptyLocation(fungus, depth);
 		new FungusAi(fungus, this);
 		return fungus;
 	}
 	
 	public Creature newBat(int depth){
-		Creature bat = new Creature(world, 'b', AsciiPanel.brightYellow, "Bat", 15, 3, 5, 0);
+		Creature bat = new Creature(world, 'b', AsciiPanel.brightYellow, "Bat", 15, 3, 5, 0, 1000);
 		world.addAtEmptyLocation(bat, depth);
 		new BatAi(bat);
 		return bat;
 	}
 	
 	public Creature newZombie(int depth, Creature player){
-		Creature zombie = new Creature(world, 'z', AsciiPanel.white, "Zombie", 30, 10, 5, 0);
+		Creature zombie = new Creature(world, 'z', AsciiPanel.white, "Zombie", 30, 10, 5, 0, 1000);
 		world.addAtEmptyLocation(zombie, depth);
 		new ZombieAi(zombie, player);
 		return zombie;
 	}
 
 	public Creature newGoblin(int depth, Creature player){
-        Creature goblin = new Creature(world, 'g', AsciiPanel.brightGreen, "Goblin", 65, 12, 8, 2);
+        Creature goblin = new Creature(world, 'g', AsciiPanel.brightGreen, "Goblin", 65, 12, 8, 2, 1000);
         goblin.equip(randomWeapon(depth));
         goblin.equip(randomArmor(depth));
         world.addAtEmptyLocation(goblin, depth);
@@ -49,14 +59,14 @@ public class StuffFactory {
     }
 
 	public Creature newTroll(int depth, Creature player){
-        Creature troll = new Creature(world, 'T', AsciiPanel.brightGreen, "Troll", 90, 30, 15, 0);
+        Creature troll = new Creature(world, 'T', AsciiPanel.brightGreen, "Troll", 90, 30, 15, 0, 1000);
         world.addAtEmptyLocation(troll, depth);
         new TrollAi(troll, player);
         return troll;
     }
 
 	public Creature newDragon(int depth, Creature player){
-		Creature dragon = new Creature(world, 'D', AsciiPanel.brightRed, "Dragon", 200, 50, 20, 0);
+		Creature dragon = new Creature(world, 'D', AsciiPanel.brightRed, "Dragon", 200, 50, 20, 0, 1000);
 		world.addAtEmptyLocation(dragon, depth);
 		new DragonAi(dragon, player);
 		return dragon;
@@ -254,8 +264,8 @@ public class StuffFactory {
 		item.setQuaffEffect(new Effect(5) {
 
 			public void start(Creature creature){
-				creature.modifyXp(10);
-				creature.doAction("gain 50 experience.");
+				creature.modifyXp(50);
+				creature.doAction("gain 50 EXP.");
 			}
 		});
 					
