@@ -1,18 +1,12 @@
 package engine.screens;
 
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import asciiPanel.AsciiPanel;
-import engine.AudioPlayer;
+
 import engine.Difficulty;
 
 public class StartScreen implements Screen {
-
-	private AudioPlayer menuAudio;
 
 	@Override
 	public void displayOutput(AsciiPanel terminal) {
@@ -23,9 +17,6 @@ public class StartScreen implements Screen {
 		terminal.writeCenter("-- press [D] to change difficulty --", 18);
 		terminal.writeCenter("-- press [Esc] to quit --", 20);
 
-		if (menuAudio == null){  //prevents music from playing every time title screen text is updated
-			//playMenuAudio();
-		}
 	}
 
 	@Override
@@ -43,22 +34,6 @@ public class StartScreen implements Screen {
 				Difficulty.setDifficulty();
 			default:
 				return this;
-		}
-	}
-
-	public void playMenuAudio() {
-		try {
-			menuAudio = new AudioPlayer("menuAudio.wav");
-		} catch (UnsupportedAudioFileException | IOException 
-				| LineUnavailableException e) {
-					e.printStackTrace();
-		}
-
-		if (menuAudio.isPlaying()) {
-			menuAudio.stop();
-			menuAudio.close();
-		} else {
-			menuAudio.loop();
 		}
 	}
 }

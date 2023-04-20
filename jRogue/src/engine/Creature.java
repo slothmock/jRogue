@@ -647,7 +647,14 @@ public class Creature {
 
 	public void gainInventorySpace() {
 		int newCapacity = inventorySize() + 1;
+
+		Item[] currentItems = inventory.getItems();
+
 		inventory = new Inventory(newCapacity);
+
+		for (Item item : currentItems) {
+			inventory.add(item);
+		}
 	}
 
 	public void gainHunger() {
